@@ -1,39 +1,50 @@
+// "use client";
 import React from "react";
-import { Button, Link } from "@heroui/react";
+import { Button, Dropdown, Label, Link } from "@heroui/react";
 import { NavbarSkeleton } from "./NavbarSkeleton";
 import { MenuLink } from "../common/MenuLink";
+import { DropdownMenuItem } from "../common/DropdownMenuItem";
 
 // // Navigation configurations managed entirely server-side
-const navItems = [
-  { label: "Features", href: "/#" },
-  { label: "Dashboard", href: "/#" },
-  { label: "Pricing", href: "/#" },
-];
-
-// Multi-tier navigation array entirely computed on the server
 // const navItems = [
-//   { label: "Features", href: "/features" },
-//   {
-//     label: "Services",
-//     children: [
-//       { label: "Web Development", href: "/services/web", description: "Modern, rapid Next.js apps." },
-//       { label: "UI/UX Design", href: "/services/design", description: "Bespoke, professional branding." },
-//       { label: "SEO Optimization", href: "/services/seo", description: "Rank first on search engines." },
-//     ],
-//   },
-//   { label: "Pricing", href: "/pricing" },
+//   { label: "Features", href: "/#" },
+//   { label: "Dashboard", href: "/#" },
+//   { label: "Pricing", href: "/#" },
 // ];
 
+// Multi-tier navigation array entirely computed on the server
+const navItems = [
+  { label: "Features", href: "/features" },
+  {
+    label: "Services",
+    children: [
+      { label: "Web Development", href: "/services/web" },
+      { label: "UI/UX Design", href: "/services/design" },
+      {
+        label: "SEO Optimization",
+        href: "/services/seo",
+        description: "Rank first on search engines.",
+      },
+    ],
+  },
+  { label: "Pricing", href: "/pricing" },
+];
+
 const Navbar = () => {
+
   // 1. Build Desktop Links (Injects Server Data into dynamic components)
-  const desktopLinks = navItems.map((item, index) => {
-    // if (item.children) {
-    //   return (
-    //     <li key={index}>
-    //       <DropdownMenuItem label={item.label} items={item.children} />
-    //     </li>
-    //   );
-    // }
+    const desktopLinks = navItems.map((item, index) => {
+      
+    // 1. Handle items WITH a dropdown menu (e.g., Services)
+    if (item.children) {
+      return (
+        <div key={index} className="dropdown-wrapper">
+          <DropdownMenuItem item={item} />
+        </div>
+      );
+    }
+
+    // 2. Handle standard flat links (e.g., Features, Pricing)
     return (
       <li key={index}>
         <MenuLink href={item.href}>{item.label}</MenuLink>
