@@ -12,7 +12,7 @@ import { Link } from "@heroui/react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-export function NavDropdown({ label, items }) {
+export function DropdownMenuItem({ label, items }) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 

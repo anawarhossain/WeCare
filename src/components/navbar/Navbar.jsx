@@ -2,7 +2,6 @@ import React from "react";
 import { Button, Link } from "@heroui/react";
 import { NavbarSkeleton } from "./NavbarSkeleton";
 import { MenuLink } from "../common/MenuLink";
-import { NavDropdown } from "./NavDropdown";
 
 // // Navigation configurations managed entirely server-side
 const navItems = [
@@ -31,7 +30,7 @@ const Navbar = () => {
     // if (item.children) {
     //   return (
     //     <li key={index}>
-    //       <NavDropdown label={item.label} items={item.children} />
+    //       <DropdownMenuItem label={item.label} items={item.children} />
     //     </li>
     //   );
     // }
