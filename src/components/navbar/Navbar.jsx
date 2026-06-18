@@ -5,16 +5,9 @@ import { NavbarSkeleton } from "./NavbarSkeleton";
 import { MenuLink } from "../common/MenuLink";
 import { DropdownMenuItem } from "../common/DropdownMenuItem";
 
-// // Navigation configurations managed entirely server-side
-// const navItems = [
-//   { label: "Features", href: "/#" },
-//   { label: "Dashboard", href: "/#" },
-//   { label: "Pricing", href: "/#" },
-// ];
-
 // Multi-tier navigation array entirely computed on the server
 const navItems = [
-  { label: "Features", href: "/features" },
+  { label: "Home", href: "/" },
   {
     label: "Services",
     children: [
@@ -27,7 +20,8 @@ const navItems = [
       },
     ],
   },
-  { label: "Pricing", href: "/pricing" },
+    { label: "About", href: "/about" },
+    { label: "Contact", href: "/contact" },
 ];
 
 const Navbar = () => {
