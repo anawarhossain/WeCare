@@ -62,7 +62,7 @@ function Spinner() {
   );
 }
 
-const recruiterMenuItems = [
+const doctorMenuItems = [
   {
     label: "Dashboard",
     href: "/dashboard/recruiter",
@@ -91,7 +91,7 @@ const recruiterMenuItems = [
   },
 ];
 
-const seekerMenuItems = [
+const patientMenuItems = [
   {
     label: "My Profile",
     href: "/profile",
@@ -120,7 +120,7 @@ export function UserDropdown({ user }) {
   const [loggingOut, setLoggingOut] = useState(false);
   const dropdownRef = useRef(null);
   const role = user?.role;
-  const menuItems = role === "Recruiter" ? recruiterMenuItems : seekerMenuItems;
+  const menuItems = role === "dorctor" ? doctorMenuItems : patientMenuItems;
 
   useEffect(() => {
     function handleClickOutside(e) {
