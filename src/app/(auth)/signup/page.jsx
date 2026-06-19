@@ -1,8 +1,7 @@
-
 import { SignUpForm } from "@/components/auth/SignUpForm";
 
 export const metadata = {
-  title: "Create Account",
+  title: "Create Account | JobSift",
   description: "Sign up for JobSift and start finding your dream job today.",
 };
 
