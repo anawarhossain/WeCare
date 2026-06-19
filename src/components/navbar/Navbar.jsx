@@ -103,22 +103,21 @@ const Navbar = () => {
       rightContent={
         <>
           <Link
-            href="/#"
+            href="/signin"
             size="sm"
             className="font-medium text-default-600 hover:text-default-900"
           >
-            Login
+            Sign In
           </Link>
-          <Button
-            as={Link}
-            href="/#"
+          <Link
+            href="/signup"
             color="primary"
             size="sm"
             variant="solid"
-            className="font-medium shadow-sm"
+            className="font-medium shadow-sm py-1.5 px-3"
           >
             Sign Up
-          </Button>
+          </Link>
         </>
       }
     />
