@@ -4,6 +4,10 @@ import { Button, Dropdown, Label, Link } from "@heroui/react";
 import { NavbarSkeleton } from "./NavbarSkeleton";
 import { MenuLink } from "../common/MenuLink";
 import { DropdownMenuItem } from "../common/DropdownMenuItem";
+import { getUserSession } from "@/lib/core/session";
+import GuestUser from "./GuestButtons";
+import AuthenticatedButtons from "./AuthenticatedButtons";
+import { ThemeToggle } from "../themeChange/ThemeToggle";
 
 // Multi-tier navigation array entirely computed on the server
 const navItems = [
@@ -20,15 +24,16 @@ const navItems = [
       },
     ],
   },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await getUserSession();
+  console.log("session", session);
 
   // 1. Build Desktop Links (Injects Server Data into dynamic components)
-    const desktopLinks = navItems.map((item, index) => {
-      
+  const desktopLinks = navItems.map((item, index) => {
     // 1. Handle items WITH a dropdown menu (e.g., Services)
     if (item.children) {
       return (
@@ -78,6 +83,8 @@ const Navbar = () => {
     );
   });
 
+
+
   return (
     <NavbarSkeleton
       maxWidth="lg"
@@ -101,24 +108,18 @@ const Navbar = () => {
       links={desktopLinks}
       mobileLinks={mobileLinks}
       rightContent={
-        <>
-          <Link
-            href="/signin"
-            size="sm"
-            className="font-medium text-default-600 hover:text-default-900"
-          >
-            Sign In
-          </Link>
-          <Link
-            href="/signup"
-            color="primary"
-            size="sm"
-            variant="solid"
-            className="font-medium shadow-sm py-1.5 px-3"
-          >
-            Sign Up
-          </Link>
-        </>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          {!session ? (
+            <>
+              <GuestUser />
+            </>
+          ) : (
+            <>
+              <AuthenticatedButtons user={session} />
+            </>
+          )}
+        </div>
       }
     />
   );

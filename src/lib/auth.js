@@ -28,7 +28,19 @@ export const auth = betterAuth({
   user: {
     additionalFields: {
       role: {
+        type: "string",
         default: "patient",
+      },
+      phone: {
+        type: "string",
+        required: true,
+      },
+      gender: {
+        type: "string",
+      },
+      status: {
+        type: "string",
+        default: "pending",
       },
     },
   },

@@ -1,9 +1,10 @@
+import SignInForm from '@/components/auth/signInForm';
 import React from 'react';
 
 const SignInPage = () => {
     return (
         <div>
-            SignIn
+            <SignInForm/>
         </div>
     );
 };
