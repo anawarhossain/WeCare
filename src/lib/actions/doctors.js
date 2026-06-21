@@ -1,80 +1,39 @@
 "use server";
 
-const baseUrl = process.env.API_URL; // NEXT_PUBLIC_ prefix server action-এ দরকার নেই
+const BASE_URL = process.env.SERVER_API_URL;
+if (!BASE_URL) {
+  throw new Error("SERVER_API_URL is not defined in .env.local");
+}
 
-/**
- * Create a new doctor profile
- * @param {Object} doctorData - form থেকে আসা doctor data
- */
-export const createDoctor = async (doctorData) => {
+export const getDoctor = async (userId) => {
   try {
-    const res = await fetch(`${baseUrl}/api/doctors`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(doctorData), // parameter পাঠাচ্ছি, function নাম না
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to create doctor profile");
-    }
-
-    return { success: true, doctor: data.doctor };
-  } catch (error) {
-    return { success: false, message: error.message };
-  }
-};
-
-/**
- * Update an existing doctor profile
- * @param {string} doctorId - MongoDB _id
- * @param {Object} updates - editable fields only
- */
-export const updateDoctor = async (doctorId, updates) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/doctors/${doctorId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updates),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to update doctor profile");
-    }
-
-    return { success: true, doctor: data.doctor };
-  } catch (error) {
-    return { success: false, message: error.message };
-  }
-};
-
-/**
- * Get doctor profile by userId
- * @param {string} userId - Better Auth user id
- */
-export const getDoctorByUserId = async (userId) => {
-  try {
-    const res = await fetch(`${baseUrl}/api/doctors/by-user/${userId}`, {
+    const res = await fetch(`${BASE_URL}/api/doctors/${userId}`, {
       cache: "no-store",
     });
-
-    if (res.status === 404) return { success: true, doctor: null };
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch doctor profile");
-    }
-
-    return { success: true, doctor: data.doctor };
+    if (!res.ok) return null;
+    return res.json();
   } catch (error) {
-    return { success: false, message: error.message };
+    console.error("getDoctor failed:", error.message);
+    return null; // Page still renders, just with no data
   }
+};
+
+export const createDoctor = async (doctorData) => {
+  const res = await fetch(`${BASE_URL}/api/doctors`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(doctorData),
+  });
+
+  return res.json();
+};
+
+export const updateDoctor = async (id, updatedData) => {
+  const res = await fetch(`${BASE_URL}/api/doctors/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedData),
+  });
+
+  return res.json();
 };
