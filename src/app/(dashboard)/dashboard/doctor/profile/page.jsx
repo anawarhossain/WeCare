@@ -1,26 +1,25 @@
 
-import ProfileMadalTrigger from '@/components/dashboard/doctor/ProfileMadalTrigger';
-import { getUserSession } from '@/lib/core/session';
-import React from 'react';
+import ProfileCard from "@/components/dashboard/doctor/ProfileCard";
+import { getUserSession } from "@/lib/core/session";
+
+export const metadata = {
+  title: "My Profile | WeCare",
+  description: "Manage your doctor profile on WeCare.",
+};
+
+
 
 const DoctorProfilePage = async () => {
   const user = await getUserSession();
+  const userId = user?.user?.id ?? user?.id;
+  console.log("userId is", userId);
 
-  console.log("user", user.id);
-
-  // You can safely fetch data from databases or APIs here
-  // const res = await fetch('https://example.com');
-  // const data = await res.json();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4">
-      <h1 className="text-2xl font-bold mb-4">Your Profile are not yet created</h1>
-      <p className="mb-6 text-gray-500">Please click on the button below to create your profile.</p>
-
-      {/* Client-side interactive element */}
-      <ProfileMadalTrigger user={user}/>
+    <div>
+      <ProfileCard user={user} />
     </div>
   );
-}
+};
 
 export default DoctorProfilePage;

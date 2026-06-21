@@ -39,7 +39,7 @@ export default async function DashboardSidebar() {
   return (
     <aside className="w-fit shrink-0 min-h-screen bg-[#0a0a0a] border-r border-white/6 flex flex-col">
       {/* ── Logo ── */}
-      <div className="h-15 flex items-center px-5 border-b border-white/6 shrink-0">
+      {/* <div className="h-15 flex items-center px-5 border-b border-white/6 shrink-0">
         <Link
           href="/"
           className="flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded"
@@ -55,7 +55,7 @@ export default async function DashboardSidebar() {
             />
           </div>
         </Link>
-      </div>
+      </div> */}
 
       {/* ── User info block ── */}
       <div className="px-4 py-5 border-b border-white/6 shrink-0">
