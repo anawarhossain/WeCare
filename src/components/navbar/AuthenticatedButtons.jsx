@@ -1,10 +1,9 @@
 import Link from "next/link";
 import { UserDropdown } from "./UserDropdown";
 
-// Logged-in UI — passes user data to client dropdown
 function AuthenticatedButtons({ user }) {
-
-  console.log("user", user.role);
+  const role = user?.user?.role ?? user?.role;
+  const dashboardHref = `/dashboard/${role === "doctor" ? "doctor" : "patient"}`;
 
   return (
     <>
@@ -13,16 +12,19 @@ function AuthenticatedButtons({ user }) {
         aria-hidden="true"
       />
 
-      {/* Post a Job — only visible when logged in */}
+      {/* Mobile only — simple Dashboard link, no dropdown */}
       <Link
-        href="/post-job"
-        className="hidden md:inline-flex items-center justify-center rounded-xl border text-sm font-medium px-4 py-2 transition-all duration-150"
+        href={dashboardHref}
+        className="text-sm font-medium md:hidden"
+        style={{ color: "var(--text-secondary)" }}
       >
-        {user?.role === "doctor" ? "Post" : "apply Job"}
+        Dashboard
       </Link>
 
-      {/* Client component — only the dropdown interaction is client-side */}
-      <UserDropdown user={user} />
+      {/* Desktop only — full dropdown */}
+      <div className="hidden md:block">
+        <UserDropdown user={user} />
+      </div>
     </>
   );
 }

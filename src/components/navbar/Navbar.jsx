@@ -12,20 +12,21 @@ import { ThemeToggle } from "../themeChange/ThemeToggle";
 // Multi-tier navigation array entirely computed on the server
 const navItems = [
   { label: "Home", href: "/" },
-  {
-    label: "Services",
-    children: [
-      { label: "Web Development", href: "/services/web" },
-      { label: "UI/UX Design", href: "/services/design" },
-      {
-        label: "SEO Optimization",
-        href: "/services/seo",
-        description: "Rank first on search engines.",
-      },
-    ],
-  },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Find Doctors", href: "/find-doctors" },
+  { label: "About Us", href: "/about" },
+  { label: "Contact Us", href: "/contact" },
+  // {
+  //   label: "Dashboard",
+  //   children: [
+  //     { label: "Web Development", href: "/services/web" },
+  //     { label: "UI/UX Design", href: "/services/design" },
+  //     {
+  //       label: "SEO Optimization",
+  //       href: "/services/seo",
+  //       description: "Rank first on search engines.",
+  //     },
+  //   ],
+  // },
 ];
 
 const Navbar = async () => {
@@ -83,8 +84,6 @@ const Navbar = async () => {
     );
   });
 
-
-
   return (
     <NavbarSkeleton
       maxWidth="lg"
@@ -110,15 +109,7 @@ const Navbar = async () => {
       rightContent={
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          {!session ? (
-            <>
-              <GuestUser />
-            </>
-          ) : (
-            <>
-              <AuthenticatedButtons user={session} />
-            </>
-          )}
+          {!session ? <GuestUser /> : <AuthenticatedButtons user={session} />}
         </div>
       }
     />
