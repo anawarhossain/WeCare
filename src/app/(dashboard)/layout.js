@@ -1,4 +1,4 @@
-
+import DashboardSidebar from "@/components/dashboard/dashboardSidebar/DashboardSidebar";
 
 export default function DashboardLayout({ children }) {
   return (
@@ -8,7 +8,7 @@ export default function DashboardLayout({ children }) {
 
       <div className="flex min-h-screen">
         {/* ── Left Sidebar ── */}
-        {/* <DashboardSidebar /> */}
+        <DashboardSidebar />
 
         {/* ── Main content area ── */}
         <div className="flex flex-col flex-1 min-w-0">

@@ -5,11 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { UserAvatar } from "./UserAvatar";
-import { LuLayoutDashboard } from "react-icons/lu";
-import { SlCalender } from "react-icons/sl";
-import { MdOutlinePayments, MdOutlinePendingActions, MdOutlineReviews } from "react-icons/md";
-import { FaFilePrescription } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
+import { doctorMenuItems, patientMenuItems } from "../common/menuItems";
 
 function ChevronIcon({ open }) {
   return (
@@ -26,21 +22,6 @@ function ChevronIcon({ open }) {
     </svg>
   );
 }
-
-// function MenuIcon({ d }) {
-//   return (
-//     <svg
-//       className="w-3.5 h-3.5"
-//       fill="none"
-//       stroke="currentColor"
-//       strokeWidth={2}
-//       viewBox="0 0 24 24"
-//       aria-hidden="true"
-//     >
-//       <path strokeLinecap="round" strokeLinejoin="round" d={d} />
-//     </svg>
-//   );
-// }
 
 function Spinner() {
   return (
@@ -67,61 +48,9 @@ function Spinner() {
   );
 }
 
-const doctorMenuItems = [
-  {
-    label: "Dashboard",
-    href: "/dashboard/doctor",
-    icon: <LuLayoutDashboard />,
-  },
-  {
-    label: "Manage Schedule",
-    href: "/dashboard/doctor/schedule",
-    icon: <SlCalender />,
-  },
-  {
-    label: "Applicationt Requests",
-    href: "/dashboard/doctor/applications",
-    icon: <MdOutlinePendingActions />,
-  },
-  {
-    label: "Prescriptions Management",
-    href: "/dashboard/doctor/prescriptions",
-    icon: <FaFilePrescription />,
-  },
-  {
-    label: "Profile Management",
-    href: "/dashboard/doctor/profile",
-    icon: <CgProfile />,
-  },
-];
 
-const patientMenuItems = [
-  {
-    label: "Dahsboard",
-    href: "/dashboard/patient",
-    icon: <LuLayoutDashboard />,
-  },
-  {
-    label: "My Profile",
-    href: "/dashboard/patient/profile",
-    icon: <CgProfile />,
-  },
-  {
-    label: "My Appointments",
-    href: "/dashboard/patient/appointments",
-    icon: <SlCalender />,
-  },
-  {
-    label: "Payments History",
-    href: "/dashboard/patient/payments",
-    icon: <MdOutlinePayments />,
-  },
-  {
-    label: "My Reviews",
-    href: "/dashboard/patient/reviews",
-    icon: <MdOutlineReviews />,
-  },
-];
+
+
 
 export function UserDropdown({ user }) {
   const router = useRouter();
