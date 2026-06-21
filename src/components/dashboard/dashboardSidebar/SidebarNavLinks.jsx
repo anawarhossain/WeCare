@@ -31,8 +31,12 @@ export function SidebarNavLinks({ role }) {
     <nav aria-label="Dashboard navigation">
       <ul className="flex flex-col gap-0.5 px-3">
         {navItems.map((item) => {
-          const isActive =
-            pathname === item.href || pathname.startsWith(item.href + "/");
+          const isDashboard =
+            item.href === `/${pathname.split("/").slice(1, 3).join("/")}`;
+
+          const isActive = isDashboard
+            ? pathname === item.href
+            : pathname.startsWith(item.href);
           return (
             <li key={item.href}>
               <Link
