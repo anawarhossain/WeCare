@@ -11,6 +11,9 @@ const EMPTY_FORM = {
   experience: "",
   consultationFee: "",
   hospitalName: "",
+  bio: "",
+  createdAt: "",
+  updatedAt: "",
   // availableDays: "",
   // availableSlots: "",
 };
@@ -37,9 +40,18 @@ export default function DoctorModal({ doctorData, userId, onSave }) {
 
     try {
       if (isEditMode) {
-        await updateDoctor(formData._id, formData);
+        await updateDoctor(formData._id, {
+          ...formData,
+          updatedAt: new Date().toISOString()
+        });
       } else {
-        await createDoctor({ ...formData, verificationStatus: "Pending", userId: userId });
+        await createDoctor({
+          ...formData,
+          verificationStatus: "Pending",
+          userId: userId,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        });
       }
     } catch (error) {
       console.error("Failed to save doctor profile:", error);

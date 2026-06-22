@@ -57,6 +57,15 @@ export default function DoctorForm({ formData, onChange }) {
         />
       </TextField>
 
+      <TextField className="w-full" name="bio" variant="secondary">
+        <Label>Professional Bio</Label>
+        <Input
+          value={formData.bio || ""}
+          onChange={onChange}
+          placeholder="Write something about yourself..."
+        />
+      </TextField>
+
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField className="w-full" name="availableDays" variant="secondary">
           <Label>Available Days</Label>

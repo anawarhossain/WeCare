@@ -31,7 +31,7 @@ const navItems = [
 
 const Navbar = async () => {
   const session = await getUserSession();
-  console.log("session", session);
+  // console.log("session", session);
 
   // 1. Build Desktop Links (Injects Server Data into dynamic components)
   const desktopLinks = navItems.map((item, index) => {

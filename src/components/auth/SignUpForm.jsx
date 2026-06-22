@@ -16,34 +16,58 @@ import {
   Select,
   ListBox,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export function SignUpForm() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false); // লোডিং স্টেট (Best Practice)
+
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true); // রিকোয়েস্ট শুরু হলে বাটন ডিজেবল করার জন্য
+
     const formData = new FormData(e.currentTarget);
     const userData = Object.fromEntries(formData.entries());
     const imageFile = userData.image;
+
     if (!imageFile || imageFile.size === 0) {
       console.error("No file selected");
+      setLoading(false);
       return;
     }
 
-    const imageUploadData = await imageUpload(imageFile);
+    try {
+      // ১. ইমেজ আপলোড
+      const imageUploadData = await imageUpload(imageFile);
 
-    const { data, error } = await authClient.signUp.email({
-      name: userData.name,
-      email: userData.email,
-      password: userData.password,
-      image: imageUploadData.url,
-      phone: userData.phone,
-      role: userData.role,
-      gender: userData.gender,
-      status: "pending",
-      createdAt: new Date().toISOString(),
-      callbackURL: "/",
-    });
+      // ২. সাইন-আপ প্রসেস
+      const { data, error } = await authClient.signUp.email({
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        image: imageUploadData.url,
+        phone: userData.phone,
+        role: userData.role,
+        gender: userData.gender,
+        status: "pending",
+        createdAt: new Date().toISOString(),
+      });
 
-    console.log(data);
+      // ৩. এরর হ্যান্ডেলিং (খুবই গুরুত্বপূর্ণ)
+      if (error) {
+        alert(error.message); // অথবা কোনো সুন্দর টোস্ট নোটিফিকেশন দেখান
+        setLoading(false);
+        return;
+      }
+
+      // ৪. সফল হলে রিডাইরেক্ট (Best Practice)
+      router.push("/");
+      router.refresh(); // সেশন আপডেট নিশ্চিত করার জন্য
+    } catch (err) {
+      console.error("Something went wrong:", err);
+      setLoading(false);
+    }
   };
 
   return (
@@ -167,6 +191,8 @@ export function SignUpForm() {
           {/* globals.css এর .btn-primary ইউটিলিটি ক্লাস ব্যবহার করা হয়েছে */}
           <Button
             type="submit"
+            isLoading={loading} // 👈 লোডিং স্টেটে স্পিনার দেখাবে
+            isDisabled={loading} // 👈 পরপর ক্লিক করা আটকাবে
             className="btn-primary flex-1 flex items-center justify-center gap-2 shadow-lg"
           >
             <Check className="w-4 h-4" />

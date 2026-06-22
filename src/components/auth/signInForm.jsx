@@ -11,9 +11,11 @@ import {
   FieldError,
 } from "@heroui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function SignInForm() {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async (e) => {
@@ -26,12 +28,22 @@ export default function SignInForm() {
       const { data, error } = await authClient.signIn.email({
         email: userData.email,
         password: userData.password,
-        callbackURL: "/",
+        callbackURL: "/", // এটিও থাকবে ব্যাকআপ হিসেবে
       });
-      console.log(data);
+
+      // 🔴 ১. এরর হ্যান্ডেলিং (ভুল পাসওয়ার্ড বা ইমেইল দিলে)
+      if (error) {
+        alert(error.message); // প্রোডাকশনে এখানে টোস্ট নোটিফিকেশন ব্যবহার করতে পারেন
+        setLoading(false);
+        return;
+      }
+
+      // 🎉 ২. সফল হলে হোম পেজে রিডাইরেক্ট ও রিফ্রেশ (Navbar সেশন আপডেটের জন্য)
+      console.log("Logged in successfully:", data);
+      router.push("/");
+      router.refresh();
     } catch (err) {
-      console.error(err);
-    } finally {
+      console.error("Login failed:", err);
       setLoading(false);
     }
   };
@@ -76,7 +88,7 @@ export default function SignInForm() {
           <div className="flex justify-between items-center">
             <Label style={{ color: "var(--text-primary)" }}>Password</Label>
             <Link
-              href="/forgot-password"
+              href="#"
               className="text-xs hover:underline"
               style={{ color: "var(--color-primary)" }}
             >
@@ -92,7 +104,8 @@ export default function SignInForm() {
           {/* globals.css এর .btn-primary ইউটিলিটি ক্লাস ব্যবহার করা হয়েছে */}
           <Button
             type="submit"
-            disabled={loading}
+            isLoading={loading} // 👈 লোডিং স্টেটে স্পিনার দেখাবে
+            isDisabled={loading} // 👈 পরপর ক্লিক করা আটকাবে
             className="btn-primary w-full flex items-center justify-center gap-2 shadow-lg disabled:opacity-60 disabled:cursor-not-allowed"
           >
             <Check className="w-4 h-4" />

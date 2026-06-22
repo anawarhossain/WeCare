@@ -7,7 +7,7 @@ if (!BASE_URL) {
 
 export const getDoctor = async (userId) => {
   try {
-    const res = await fetch(`${BASE_URL}/api/doctors/${userId}`, {
+    const res = await fetch(`${BASE_URL}/api/doctors/user/${userId}`, {
       cache: "no-store",
     });
     if (!res.ok) return null;
