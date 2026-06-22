@@ -25,8 +25,17 @@ export default function DoctorDetailsView({ doctorData }) {
     );
   }
 
-  const isVerified =
-    doctorData.verificationStatus?.toLowerCase() === "verified";
+  const statusColors = {
+    approved: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    pending: "bg-amber-50 text-amber-700 border-amber-200",
+    rejected: "bg-rose-50 text-rose-700 border-rose-200",
+  };
+
+  const currentStatusStyle =
+    statusColors[doctorData?.verificationStatus?.toLowerCase()];
+  
+  console.log("doctor status", currentStatusStyle);
+
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -89,7 +98,7 @@ export default function DoctorDetailsView({ doctorData }) {
             Status
           </h3>
           <span
-            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${isVerified ? "badge-success" : "badge-warning"}`}
+            className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${currentStatusStyle}`}
           >
             {doctorData.verificationStatus || "Pending"}
           </span>
