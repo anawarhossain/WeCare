@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Modal, Button, Surface } from "@heroui/react";
 import DoctorForm from "./DoctorForm";
 import { createDoctor, updateDoctor } from "@/lib/actions/doctors";
+import { useRouter } from "next/navigation";
 
 const EMPTY_FORM = {
   specialization: "",
@@ -21,6 +22,7 @@ const EMPTY_FORM = {
 export default function DoctorModal({ doctorData, userId, onSave }) {
   const isEditMode = !!doctorData;
   const [formData, setFormData] = useState(doctorData ?? EMPTY_FORM);
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,6 +57,10 @@ export default function DoctorModal({ doctorData, userId, onSave }) {
       }
     } catch (error) {
       console.error("Failed to save doctor profile:", error);
+    }
+    finally {
+      router.refresh();
+      
     }
   };
 

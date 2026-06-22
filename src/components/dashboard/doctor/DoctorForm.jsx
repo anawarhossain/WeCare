@@ -1,6 +1,6 @@
 "use client";
 
-import { TextField, Label, Input } from "@heroui/react";
+import { TextField, Label, Input, TextArea, TextAreaRoot } from "@heroui/react";
 
 const fields = [
   {
@@ -57,14 +57,26 @@ export default function DoctorForm({ formData, onChange }) {
         />
       </TextField>
 
-      <TextField className="w-full" name="bio" variant="secondary">
-        <Label>Professional Bio</Label>
-        <Input
+      {/* ✨ প্রফেশনাল বায়ো সেকশন (টাইপ করলে বড় হবে + টেনে বড় করা যাবে) */}
+      <div className="w-full flex flex-col gap-1">
+        <label
+          className="text-sm font-medium"
+          style={{ color: "var(--text-primary)" }}
+        >
+          Professional Bio
+        </label>
+        <textarea
+          name="bio"
           value={formData.bio || ""}
           onChange={onChange}
-          placeholder="Write something about yourself..."
+          placeholder="Tell patients about your medical background, expertise, or philosophy of care..."
+          rows={4} // শুরুতে ৪ লাইনের সাইজ থাকবে
+          className="w-full mt-1 p-3 rounded-xl border text-sm transition-all outline-none
+               resize-y min-h-40 max-h-100
+               bg-transparent text-(--text-primary) border-(--border-default)
+               focus:border-(--color-primary) focus:ring-1 focus:ring-(--color-primary)"
         />
-      </TextField>
+      </div>
 
       {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField className="w-full" name="availableDays" variant="secondary">

@@ -68,7 +68,7 @@ export default function DoctorDetailsView({ doctorData }) {
               label="Hospital / Chamber"
               value={doctorData.hospitalName}
             />
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <DetailItem
                 label="Available Days"
                 value={doctorData.availableDays}
@@ -77,7 +77,7 @@ export default function DoctorDetailsView({ doctorData }) {
                 label="Available Slots"
                 value={doctorData.availableSlots}
               />
-            </div>
+            </div> */}
           </dl>
         </section>
       </div>
