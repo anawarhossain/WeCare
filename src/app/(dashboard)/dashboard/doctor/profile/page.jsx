@@ -14,7 +14,7 @@ const DoctorProfilePage = async () => {
   console.log("user", user, userId);
 
   const doctorData = await getDoctor(userId);
-  console.log(doctorData);
+  console.log("doctorData", doctorData);
 
   return (
     <div>

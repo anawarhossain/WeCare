@@ -57,7 +57,7 @@ export default function DoctorForm({ formData, onChange }) {
         />
       </TextField>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <TextField className="w-full" name="availableDays" variant="secondary">
           <Label>Available Days</Label>
           <Input
@@ -75,7 +75,7 @@ export default function DoctorForm({ formData, onChange }) {
             placeholder="e.g. 04:00 PM - 08:00 PM"
           />
         </TextField>
-      </div>
+      </div> */}
     </div>
   );
 }

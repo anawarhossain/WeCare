@@ -11,8 +11,8 @@ const EMPTY_FORM = {
   experience: "",
   consultationFee: "",
   hospitalName: "",
-  availableDays: "",
-  availableSlots: "",
+  // availableDays: "",
+  // availableSlots: "",
 };
 
 export default function DoctorModal({ doctorData, userId, onSave }) {
