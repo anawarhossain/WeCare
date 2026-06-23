@@ -1,6 +1,6 @@
 "use client";
 
-import { TextField, Label, Input, TextArea, TextAreaRoot } from "@heroui/react";
+import { TextField, Label, Input } from "@heroui/react";
 
 const fields = [
   {
@@ -48,6 +48,34 @@ export default function DoctorForm({ formData, onChange }) {
         ))}
       </div>
 
+
+
+      {/* Specializations Section */}
+      <TextField
+        className="w-full"
+        name="specializationsInput"
+        variant="secondary"
+      >
+        <Label>Sub-Specializations (Comma separated)</Label>
+        <Input
+          value={formData.specializationsInput || ""}
+          onChange={onChange}
+          placeholder="e.g. Interventional Cardiology, Preventive Medicine"
+        />
+      </TextField>
+
+      {/* Awards Section (কমা দিয়ে ইনপুট নিবে) */}
+      <TextField className="w-full" name="awardsInput" variant="secondary">
+        <Label>Awards & Achievements (Comma separated)</Label>
+        <Input
+          value={formData.awardsInput || ""}
+          onChange={onChange}
+          placeholder="e.g. Best Cardiologist 2022, Research Excellence Award"
+        />
+      </TextField>
+
+      
+      {/* Hospital / Chamber Section */}
       <TextField className="w-full" name="hospitalName" variant="secondary">
         <Label>Hospital / Chamber</Label>
         <Input
@@ -57,7 +85,7 @@ export default function DoctorForm({ formData, onChange }) {
         />
       </TextField>
 
-      {/* ✨ প্রফেশনাল বায়ো সেকশন (টাইপ করলে বড় হবে + টেনে বড় করা যাবে) */}
+      {/* Bio Section */}
       <div className="w-full flex flex-col gap-1">
         <label
           className="text-sm font-medium"
@@ -78,25 +106,6 @@ export default function DoctorForm({ formData, onChange }) {
         />
       </div>
 
-      {/* <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <TextField className="w-full" name="availableDays" variant="secondary">
-          <Label>Available Days</Label>
-          <Input
-            value={formData.availableDays || ""}
-            onChange={onChange}
-            placeholder="e.g. Sat, Mon, Wed"
-          />
-        </TextField>
-
-        <TextField className="w-full" name="availableSlots" variant="secondary">
-          <Label>Available Slots</Label>
-          <Input
-            value={formData.availableSlots || ""}
-            onChange={onChange}
-            placeholder="e.g. 04:00 PM - 08:00 PM"
-          />
-        </TextField>
-      </div> */}
     </div>
   );
 }

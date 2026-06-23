@@ -1,3 +1,6 @@
+import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { MdOutlineMilitaryTech } from "react-icons/md";
+
 const DetailItem = ({ label, value, className = "" }) => (
   <div>
     <dt className="text-sm font-medium text-(--text-secondary)">{label}</dt>
@@ -33,9 +36,8 @@ export default function DoctorDetailsView({ doctorData }) {
 
   const currentStatusStyle =
     statusColors[doctorData?.verificationStatus?.toLowerCase()];
-  
-  console.log("doctor status", currentStatusStyle);
 
+  console.log("doctorData", doctorData);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -100,18 +102,80 @@ export default function DoctorDetailsView({ doctorData }) {
           <span
             className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider ${currentStatusStyle}`}
           >
-            {doctorData.verificationStatus || "Pending"}
+            {doctorData?.verificationStatus || "Pending"}
           </span>
         </div>
 
         <div className="border-t border-(--border-default) pt-4 space-y-2 text-xs text-(--text-muted)">
           <div className="flex justify-between">
             <span>Profile Created:</span>
-            <span>{formatDate(doctorData.createdAt)}</span>
+            <span>{formatDate(doctorData?.createdAt)}</span>
           </div>
           <div className="flex justify-between">
             <span>Last Updated:</span>
-            <span>{formatDate(doctorData.updatedAt)}</span>
+            <span>{formatDate(doctorData?.updatedAt)}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="card md:col-span-3 space-y-6">
+        <div className="md:flex justify-between gap-4">
+          {/* Specializations */}
+          <div
+            className="p-5 rounded-xl w-full">
+            <h3
+              className="text-lg font-semibold mb-4"
+              style={{ color: "var(--color-primary)" }}
+            >
+              Specializations
+            </h3>
+            <ul className="space-y-2">
+              {doctorData?.specializations.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-2 text-sm"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  <span
+                    className="material-symbols-outlined text-xl"
+                    style={{
+                      color: "var(--color-primary)",
+                      fontVariationSettings: "'FILL' 1",
+                    }}
+                  >
+                    <IoIosCheckmarkCircleOutline />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Awards */}
+          <div className="p-5 rounded-xl w-full">
+            <h3
+              className="text-lg font-semibold mb-4"
+              style={{ color: "var(--color-primary)" }}
+            >
+              Awards & Honors
+            </h3>
+            <ul className="space-y-2">
+              {doctorData?.awards.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-2 text-sm"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  <span
+                    className="material-symbols-outlined text-amber-500 text-xl"
+                    style={{ fontVariationSettings: "'FILL' 1" }}
+                  >
+                    <MdOutlineMilitaryTech />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </div>

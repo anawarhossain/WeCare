@@ -6,8 +6,11 @@ import DoctorForm from "./DoctorForm";
 import { createDoctor, updateDoctor } from "@/lib/actions/doctors";
 import { useRouter } from "next/navigation";
 
+// ফর্ম হ্যান্ডেল করার জন্য টেম্পোরারি স্ট্রিং
 const EMPTY_FORM = {
   specialization: "",
+  specializationsInput: "",
+  awardsInput: "",
   qualifications: "",
   experience: "",
   consultationFee: "",
@@ -15,14 +18,25 @@ const EMPTY_FORM = {
   bio: "",
   createdAt: "",
   updatedAt: "",
-  // availableDays: "",
-  // availableSlots: "",
 };
 
 export default function DoctorModal({ doctorData, userId, onSave }) {
   const isEditMode = !!doctorData;
-  const [formData, setFormData] = useState(doctorData ?? EMPTY_FORM);
   const router = useRouter();
+
+  // ডাটাবেজের Array ডেটাকে ফর্মে দেখানোর জন্য Comma-separated String-এ রূপান্তর করার ফাংশন
+  const formatInitialData = (data) => {
+    if (!data) return EMPTY_FORM;
+    return {
+      ...data,
+      specializationsInput: data.specializations
+        ? data.specializations.join(", ")
+        : "",
+      awardsInput: data.awards ? data.awards.join(", ") : "",
+    };
+  };
+
+  const [formData, setFormData] = useState(() => formatInitialData(doctorData));
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,21 +48,45 @@ export default function DoctorModal({ doctorData, userId, onSave }) {
 
   const handleOpenModal = () => {
     // Reset form to latest doctorData (or empty) each time the modal opens
-    setFormData(doctorData ?? EMPTY_FORM);
+    setFormData(formatInitialData(doctorData));
   };
 
   const handleSubmit = async () => {
-    onSave(formData, isEditMode);
+    // সাবমিট করার আগে Comma-separated String-কে ট্রিম (trim) করে Array-তে রূপান্তর
+    const finalSpecializations = formData.specializationsInput
+      ? formData.specializationsInput
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean)
+      : [];
+
+    const finalAwards = formData.awardsInput
+      ? formData.awardsInput
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean)
+      : [];
+
+    // ডাটাবেজে পাঠানোর জন্য অবজেক্ট তৈরি (ইনপুট ফিল্ডের লোকাল স্টেট বাদ দিয়ে)
+    const { specializationsInput, awardsInput, ...cleanFormData } = formData;
+
+    const payload = {
+      ...cleanFormData,
+      specializations: finalSpecializations,
+      awards: finalAwards,
+    };
+
+    onSave(payload, isEditMode);
 
     try {
       if (isEditMode) {
-        await updateDoctor(formData._id, {
-          ...formData,
-          updatedAt: new Date().toISOString()
+        await updateDoctor(payload._id, {
+          ...payload,
+          updatedAt: new Date().toISOString(),
         });
       } else {
         await createDoctor({
-          ...formData,
+          ...payload,
           verificationStatus: "Pending",
           userId: userId,
           createdAt: new Date().toISOString(),
@@ -57,12 +95,10 @@ export default function DoctorModal({ doctorData, userId, onSave }) {
       }
     } catch (error) {
       console.error("Failed to save doctor profile:", error);
-    }
-    finally {
+    } finally {
       router.refresh();
-      
     }
-  };
+  };;
 
   return (
     <Modal>
