@@ -7,7 +7,7 @@ function StarRow({ rating }) {
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          className="material-symbols-outlined text-amber-500 text-xl"
+          className=" text-amber-500 text-xl"
           style={{
             fontVariationSettings: i < rating ? "'FILL' 1" : "'FILL' 0",
           }}

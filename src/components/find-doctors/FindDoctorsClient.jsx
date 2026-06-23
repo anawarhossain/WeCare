@@ -87,7 +87,7 @@ export default function FindDoctorsClient({ doctors }) {
             className="max-w-3xl mx-auto bg-white rounded-lg shadow-xl p-3 flex flex-col md:flex-row gap-3"
           >
             <div className="flex-1 flex items-center bg-(--bg-surface) px-4 py-2.5 rounded-md border border-(--border-default)">
-              <span className="material-symbols-outlined text-(--text-muted) mr-3 text-xl">
+              <span className=" text-(--text-muted) mr-3 text-xl">
                 <CiSearch />
               </span>
               <input
@@ -104,7 +104,7 @@ export default function FindDoctorsClient({ doctors }) {
                     setSearchQuery("");
                     setCurrentPage(1);
                   }}
-                  className="material-symbols-outlined text-(--text-muted) hover:text-(--text-secondary) text-xl ml-2"
+                  className=" text-(--text-muted) hover:text-(--text-secondary) text-xl ml-2"
                 >
                   <IoClose />
                 </button>
@@ -114,7 +114,7 @@ export default function FindDoctorsClient({ doctors }) {
               type="submit"
               className="btn-primary flex items-center justify-center gap-2 text-sm"
             >
-              <span className="material-symbols-outlined text-xl">
+              <span className=" text-xl">
                 <CiSearch />
               </span>
               Search
@@ -163,7 +163,7 @@ export default function FindDoctorsClient({ doctors }) {
               onClick={() => setMobileFilterOpen(!mobileFilterOpen)}
               className="flex items-center gap-2 text-sm font-semibold text-(--color-primary) border border-(--color-primary) px-3 py-1.5 rounded-md hover:bg-(--color-primary-light) transition-colors"
             >
-              <span className="material-symbols-outlined text-xl">
+              <span className=" text-xl">
                 <HiAdjustmentsHorizontal />
               </span>
               Filters
@@ -203,7 +203,7 @@ export default function FindDoctorsClient({ doctors }) {
           ) : (
             /* Empty State */
             <div className="flex flex-col items-center justify-center py-20 text-center">
-              <span className="material-symbols-outlined text-6xl text-(--text-muted) mb-4">
+              <span className=" text-6xl text-(--text-muted) mb-4">
                 <MdSearchOff />
               </span>
               <h3 className="text-lg font-semibold text-(--text-primary) mb-2">
@@ -239,7 +239,7 @@ export default function FindDoctorsClient({ doctors }) {
         }}
         aria-label="Toggle filters"
       >
-        <span className="material-symbols-outlined">
+        <span className="">
           <HiAdjustmentsHorizontal />
         </span>
       </button>

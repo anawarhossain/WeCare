@@ -47,7 +47,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
             }}
           >
             <span
-              className="material-symbols-outlined text-[18px]"
+              className=" text-[18px]"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               <MdVerified />
@@ -83,7 +83,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
                 {/* Rating */}
                 <div className="flex items-center gap-1">
                   <span
-                    className="material-symbols-outlined text-amber-500"
+                    className=" text-amber-500"
                     style={{ fontVariationSettings: "'FILL' 1" }}
                   >
                     <FaStar />
@@ -148,7 +148,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
             ].map(({ icon, label, value }) => (
               <div key={label} className="flex items-start gap-3">
                 <span
-                  className="material-symbols-outlined text-xl mt-0.5"
+                  className=" text-xl mt-0.5"
                   style={{ color: "var(--text-muted)" }}
                 >
                   {icon}
@@ -183,7 +183,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
             }}
           >
             Book Appointment
-            <span className="material-symbols-outlined text-xl">
+            <span className=" text-xl">
               <CiCalendar />
             </span>
           </button>
@@ -196,7 +196,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
             }}
           >
             Message
-            <span className="material-symbols-outlined text-xl">
+            <span className=" text-xl">
               <BsChatLeftText />
             </span>
           </button>

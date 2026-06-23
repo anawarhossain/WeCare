@@ -28,7 +28,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         className="p-2 rounded-md border border-(--border-default) hover:bg-(--bg-surface) text-(--text-secondary) flex items-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Previous page"
       >
-        <span className="material-symbols-outlined text-xl">
+        <span className=" text-xl">
           <IoChevronBackOutline />
         </span>
       </button>
@@ -66,7 +66,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange }) {
         className="p-2 rounded-md) border border-(--border-default) hover:bg-(--bg-surface) text-(--text-secondary) flex items-center transition-all disabled:opacity-30 disabled:cursor-not-allowed"
         aria-label="Next page"
       >
-        <span className="material-symbols-outlined text-xl">
+        <span className=" text-xl">
           <IoChevronForward />
         </span>
       </button>

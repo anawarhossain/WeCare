@@ -79,7 +79,7 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
           >
             <div className="flex items-center gap-3">
               <span
-                className="material-symbols-outlined text-xl"
+                className=" text-xl"
                 style={{ color: "var(--color-primary)" }}
               >
                 event
@@ -101,7 +101,7 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
             </div>
             <div className="flex items-center gap-3">
               <span
-                className="material-symbols-outlined text-xl"
+                className=" text-xl"
                 style={{ color: "var(--color-primary)" }}
               >
                 payments

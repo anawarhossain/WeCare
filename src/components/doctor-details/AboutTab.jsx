@@ -51,7 +51,7 @@ export default function AboutTab({ doctor }) {
                 style={{ color: "var(--text-primary)" }}
               >
                 <span
-                  className="material-symbols-outlined text-xl"
+                  className=" text-xl"
                   style={{
                     color: "var(--color-primary)",
                     fontVariationSettings: "'FILL' 1",
@@ -84,7 +84,7 @@ export default function AboutTab({ doctor }) {
                 style={{ color: "var(--text-primary)" }}
               >
                 <span
-                  className="material-symbols-outlined text-amber-500 text-xl"
+                  className=" text-amber-500 text-xl"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
                   <MdOutlineMilitaryTech />

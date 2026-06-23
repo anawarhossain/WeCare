@@ -44,7 +44,7 @@ export default function DoctorCard({ doctor }) {
             {name}
           </h3>
           <div className="flex items-center gap-1 shrink-0 ml-2">
-            <span className="material-symbols-outlined text-amber-500 text-base leading-none [font-variation-settings:'FILL'_1]">
+            <span className=" text-amber-500 text-base leading-none [font-variation-settings:'FILL'_1]">
               <FaStar />
             </span>
             <span className="font-bold text-(--text-primary) text-sm">
@@ -62,19 +62,19 @@ export default function DoctorCard({ doctor }) {
         <div className="space-y-2 mb-5 flex-1">
           {/* Hospital & Experience */}
           <div className="flex items-center gap-3 text-(--text-secondary)">
-            <span className="material-symbols-outlined text-(--text-muted) text-xl">
+            <span className=" text-(--text-muted) text-xl">
               <PiBuildingApartmentDuotone />
             </span>
             <span className="text-sm">{hospital}</span>
           </div>
           <div className="flex items-center gap-3 text-(--text-secondary)">
-            <span className="material-symbols-outlined text-(--text-muted) text-xl">
+            <span className=" text-(--text-muted) text-xl">
               <MdOutlineWorkHistory />
             </span>
             <span className="text-sm">{experience} Years Experience</span>
           </div>
           <div className="flex items-center gap-3 text-(--color-primary) font-semibold">
-            <span className="material-symbols-outlined text-xl">
+            <span className=" text-xl">
               <FaMoneyBills />
             </span>
             <span className="text-lg">${fee.toFixed(2)}</span>
