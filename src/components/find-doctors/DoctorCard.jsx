@@ -83,7 +83,7 @@ export default function DoctorCard({ doctor }) {
 
         {/* Book Button */}
         <Link
-          href={`/book-appointment/${id}`}
+          href={`/find-doctors/${id}`}
           className="btn-primary text-center block text-sm font-semibold hover:opacity-90 active:scale-[0.98]"
         >
           Book Appointment
