@@ -4,14 +4,18 @@ const BASE_URL = process.env.SERVER_API_URL;
 if (!BASE_URL) {
   throw new Error(" server api not valid");
 }
+
+export const serverGet = async (path) => {
+  const res = await fetch(`${BASE_URL}/${path}`, { cache: "no-store" });
+  return handleStatusCode(res);
+};
+
 export const serverMutation = async (path, data, method = "POST") => {
   const res = await fetch(`${BASE_URL}/${path}`, {
     method: method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-
-  // Handle the response, e.g., check for errors
 
   return handleStatusCode(res);
 };

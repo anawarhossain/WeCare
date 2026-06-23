@@ -1,6 +1,16 @@
 // lib/doctors.js
 // Replace this with your actual API/DB calls
 
+import { serverGet } from "../core/server";
+
+
+// get doctor by id
+export const getDoctor = async (userId) => {
+  return await serverGet(`api/doctors/user/${userId}`);
+}
+
+
+
 const MOCK_DOCTORS = [
   {
     id: "1",

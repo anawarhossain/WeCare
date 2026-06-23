@@ -1,6 +1,6 @@
 import ProfileCard from "@/components/common/ProfileCard";
 import ProfessionalDetailsPage from "@/components/dashboard/doctor/ProfessionalDetailsPage";
-import { getDoctor } from "@/lib/actions/doctors";
+import { getDoctor } from "@/lib/api/doctors";
 import { getUserSession } from "@/lib/core/session";
 
 export const metadata = {
