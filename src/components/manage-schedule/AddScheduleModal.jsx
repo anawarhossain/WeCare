@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FaCheckCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
+import { TbProgress } from "react-icons/tb";
 
 const ALL_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
@@ -79,10 +81,7 @@ export default function AddScheduleModal({ defaultDay, onClose, onSave }) {
             onClick={onClose}
             className="w-8 h-8 rounded-full flex items-center justify-center hover:bg-(--bg-muted) transition-colors"
           >
-            <span
-              className=" text-xl"
-              style={{ color: "var(--text-muted)" }}
-            >
+            <span className=" text-xl" style={{ color: "var(--text-muted)" }}>
               <IoMdClose />
             </span>
           </button>
@@ -220,7 +219,7 @@ export default function AddScheduleModal({ defaultDay, onClose, onSave }) {
             {saving ? (
               <>
                 <span className=" text-[18px] animate-spin">
-                  progress_activity
+                  <TbProgress />
                 </span>
                 Saving...
               </>
@@ -230,7 +229,7 @@ export default function AddScheduleModal({ defaultDay, onClose, onSave }) {
                   className=" text-[18px]"
                   style={{ fontVariationSettings: "'FILL' 1" }}
                 >
-                  check_circle
+                  <FaCheckCircle />
                 </span>
                 Saved!
               </>
