@@ -28,7 +28,11 @@ const handleStatusCode = (res) => {
     redirect("/forbidden");
   } else if (res.status === 404) {
     redirect("/not-found");
+  } else if (res.status >= 500) {
+    redirect("/server-error");
   }
 
   return res.json();
+
+
 };
