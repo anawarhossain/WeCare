@@ -20,15 +20,7 @@ export default function AboutTab({ doctor }) {
       </h2>
 
       <div className="space-y-4 mb-8">
-        {bio.map((para, i) => (
-          <p
-            key={i}
-            className="text-base leading-relaxed"
-            style={{ color: "var(--text-secondary)" }}
-          >
-            {para}
-          </p>
-        ))}
+        {bio}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

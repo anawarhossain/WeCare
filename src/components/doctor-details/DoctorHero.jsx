@@ -10,14 +10,31 @@ export default function DoctorHero({ doctor, onBookClick }) {
   const {
     name,
     specialization,
-    hospital,
+    hospitalName,
     experience,
     qualifications,
     rating,
     reviewCount,
-    fee,
+    consultationFee,
     image,
+    verificationStatus,
   } = doctor;
+
+
+  const statusStyle = {
+    pending: {
+      backgroundColor: "var(--color-warning-bg)",
+      color: "var(--color-warning-text)",
+    },
+    verified: {
+      backgroundColor: "var(--color-success-bg)",
+      color: "var(--color-success-text)",
+    },
+    rejected: {
+      backgroundColor: "var(--danger-100)",
+      color: "var(--danger-800)",
+    },
+  };
 
   return (
     <section
@@ -41,10 +58,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
           {/* Verified badge */}
           <div
             className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1 rounded-full shadow-sm text-xs font-semibold"
-            style={{
-              backgroundColor: "var(--color-success-bg)",
-              color: "var(--color-success-text)",
-            }}
+            style={statusStyle[verificationStatus.toLowerCase()]}
           >
             <span
               className=" text-[18px]"
@@ -52,7 +66,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
             >
               <MdVerified />
             </span>
-            Verified
+            {verificationStatus}
           </div>
         </div>
       </div>
@@ -122,7 +136,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
                 className="text-2xl font-bold"
                 style={{ color: "var(--color-primary)" }}
               >
-                ${fee.toFixed(2)}
+                ${consultationFee}
               </p>
             </div>
           </div>
@@ -133,7 +147,7 @@ export default function DoctorHero({ doctor, onBookClick }) {
               {
                 icon: <PiBuildingApartmentDuotone />,
                 label: "Hospital",
-                value: hospital,
+                value: hospitalName,
               },
               {
                 icon: <MdOutlineWorkHistory />,

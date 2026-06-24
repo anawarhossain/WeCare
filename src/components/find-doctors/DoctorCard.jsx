@@ -10,9 +10,9 @@ export default function DoctorCard({ doctor }) {
     id,
     name,
     specialization,
-    hospital,
+    hospitalName,
     experience,
-    fee,
+    consultationFee,
     rating,
     image,
     availableToday,
@@ -65,7 +65,7 @@ export default function DoctorCard({ doctor }) {
             <span className=" text-(--text-muted) text-xl">
               <PiBuildingApartmentDuotone />
             </span>
-            <span className="text-sm">{hospital}</span>
+            <span className="text-sm">{hospitalName}</span>
           </div>
           <div className="flex items-center gap-3 text-(--text-secondary)">
             <span className=" text-(--text-muted) text-xl">
@@ -77,7 +77,7 @@ export default function DoctorCard({ doctor }) {
             <span className=" text-xl">
               <FaMoneyBills />
             </span>
-            <span className="text-lg">${fee.toFixed(2)}</span>
+            <span className="text-lg">${consultationFee}</span>
           </div>
         </div>
 

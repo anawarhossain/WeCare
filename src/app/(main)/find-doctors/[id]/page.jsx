@@ -3,13 +3,9 @@
 
 import { notFound } from "next/navigation";
 import DoctorDetailsClient from "@/components/doctor-details/DoctorDetailsClient";
-import { getAllDoctorIds, getDoctorById } from "@/lib/api/doctors";
+import { getDoctorById } from "@/lib/api/doctors";
 
-// Static params for SSG (optional — remove if fully dynamic)
-export async function generateStaticParams() {
-  const ids = await getAllDoctorIds();
-  return ids.map((d) => ({ id: d.id }));
-}
+
 
 // Dynamic metadata per doctor
 export async function generateMetadata({ params }) {
