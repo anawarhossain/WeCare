@@ -4,9 +4,23 @@ import { useState } from "react";
 import WeeklyGrid from "./WeeklyGrid";
 import AddScheduleModal from "./AddScheduleModal";
 import { FaPlus } from "react-icons/fa";
+import { getScheduleDataById } from "@/lib/api/scheduls";
 
-export default function ManageScheduleClient({ stats }) {
+export default function ManageScheduleClient({
+  initialStats,
+  initialSlots,
+  doctorId,
+}) {
   const [modalOpen, setModalOpen] = useState(false);
+  const [stats, setStats] = useState(initialStats);
+  const [schedule, setSchedule] = useState(initialSlots);
+
+  // চাইল্ড কম্পোনেন্ট (WeeklyGrid) থেকে কল করার জন্য একটি গ্লোবাল রিলোড বা আপডেট স্টেট ফাংশন
+  const refreshData = async () => {
+    const data = await getScheduleDataById(doctorId);
+    setStats(data.stats);
+    setSchedule(data.slots);
+  };
 
   return (
     <>
@@ -86,15 +100,21 @@ export default function ManageScheduleClient({ stats }) {
         )}
       </div>
 
-      {/* Weekly Grid (has its own internal state + modal) */}
-      <WeeklyGrid />
+      {/* Weekly Grid */}
+      <WeeklyGrid
+        schedule={schedule}
+        doctorId={doctorId}
+        onRefresh={refreshData}
+      />
 
-      {/* Global Add Schedule Modal (from header button) */}
+      {/* Modal */}
       {modalOpen && (
         <AddScheduleModal
           defaultDay={null}
+          doctorId={doctorId}
           onClose={() => setModalOpen(false)}
-          onSave={() => setModalOpen(false)}
+          onSave={refreshData}
+          currentSchedule={schedule}
         />
       )}
     </>

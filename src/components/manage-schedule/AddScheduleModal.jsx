@@ -1,18 +1,35 @@
 "use client";
 
+
+
+import { createSchedule } from "@/lib/actions/scheduls";
 import { useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { TbProgress } from "react-icons/tb";
 
+
 const ALL_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+const DAYS_FULL = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
-export default function AddScheduleModal({ defaultDay, onClose, onSave }) {
+export default function AddScheduleModal({
+  defaultDay,
+  doctorId,
+  currentSchedule,
+  onClose,
+  onSave,
+}) {
   const [selectedDays, setSelectedDays] = useState(
-    defaultDay
-      ? [defaultDay.slice(0, 3)]
-      : WEEKDAYS
+    defaultDay ? [defaultDay.slice(0, 3)] : WEEKDAYS,
   );
   const [startTime, setStartTime] = useState("09:00");
   const [endTime, setEndTime] = useState("17:00");
@@ -20,9 +37,40 @@ export default function AddScheduleModal({ defaultDay, onClose, onSave }) {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
 
+  
+
+
+  function generateSlots(selectedDays, startTime, endTime, durationMin) {
+    const slots = [];
+    const [sh, sm] = startTime.split(":").map(Number);
+    const [eh, em] = endTime.split(":").map(Number);
+    const startMins = sh * 60 + sm;
+    const endMins = eh * 60 + em;
+
+    let cur = startMins;
+    while (cur + durationMin <= endMins) {
+      const fmt = (m) => {
+        const h = Math.floor(m / 60);
+        const min = m % 60;
+        const suffix = h >= 12 ? "PM" : "AM";
+        const h12 = h % 12 || 12;
+        return `${String(h12).padStart(2, "0")}:${String(min).padStart(2, "0")} ${suffix}`;
+      };
+      slots.push({
+        id: `${cur}`,
+        label: `${fmt(cur)} - ${fmt(cur + durationMin)}`,
+      });
+      cur += durationMin;
+    }
+    return slots;
+  }
+
+
   // Escape key close
   useEffect(() => {
-    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    const handler = (e) => {
+      if (e.key === "Escape") onClose();
+    };
     window.addEventListener("keydown", handler);
     document.body.style.overflow = "hidden";
     return () => {
@@ -33,19 +81,59 @@ export default function AddScheduleModal({ defaultDay, onClose, onSave }) {
 
   const toggleDay = (day) => {
     setSelectedDays((prev) =>
-      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]
+      prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day],
     );
   };
 
   const handleSave = async () => {
+    if (selectedDays.length === 0) return;
     setSaving(true);
-    await new Promise((r) => setTimeout(r, 1200)); // simulate API call
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => {
-      onSave?.({ days: selectedDays, startTime, endTime, duration: Number(duration) });
-      onClose();
-    }, 800);
+
+    // নতুন স্লট জেনারেট করা
+    const newSlots = generateSlots(
+      selectedDays,
+      startTime,
+      endTime,
+      Number(duration),
+    );
+    const updatedSchedule = { ...currentSchedule };
+
+    selectedDays.forEach((abbr) => {
+      const fullDay = DAYS_FULL.find((d) => d.startsWith(abbr));
+      if (fullDay) {
+        const existingIds = new Set(
+          (currentSchedule[fullDay] || []).map((s) => s.id),
+        );
+        const toAdd = newSlots
+          .filter((s) => !existingIds.has(s.id))
+          .map((s) => ({ ...s, id: `${fullDay}-${s.id}-${Date.now()}` }));
+
+        updatedSchedule[fullDay] = [
+          ...(currentSchedule[fullDay] || []),
+          ...toAdd,
+        ];
+      }
+    });
+
+    try {
+      // ডাটাবেজে ডাটা পাঠানোর জন্য API কল করা হলো
+      await createSchedule({
+        doctorId,
+        slots: updatedSchedule,
+        avgDuration: Number(duration), // ব্যাকএন্ডে এভারেজ ডিউরেশন ট্র্যাক করার জন্য
+      });
+
+      setSaving(false);
+      setSaved(true);
+
+      setTimeout(() => {
+        onSave(); // প্যারেন্ট কম্পোনেন্টের refreshData() ফাংশন ট্রিগার করবে
+        onClose();
+      }, 800);
+    } catch (error) {
+      console.error("Error saving schedule:", error);
+      setSaving(false);
+    }
   };
 
   return (
