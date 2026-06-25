@@ -19,13 +19,16 @@ export default async function AppointmentRequestsPage() {
   const appointments = await getAppointments(userId);
   console.log("appointments", appointments);
 
+
   return (
     <main
       className="min-h-screen"
       style={{ backgroundColor: "var(--bg-base)" }}
     >
       <div className="max-w-4xl mx-auto px-4 md:px-8 py-8">
-        <AppointmentRequestsClient initialAppointments={appointments} />
+        <AppointmentRequestsClient
+          initialAppointments={appointments}
+        />
       </div>
     </main>
   );

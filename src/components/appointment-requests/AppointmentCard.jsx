@@ -10,7 +10,7 @@ import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 export default function AppointmentCard({ appointment, onAccept, onReject, onComplete }) {
   const {
-    id,
+    _id,
     patientName,
     patientImage: patientAvatar,
     date,
@@ -19,6 +19,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
     treadmendStatus: status,
   } = appointment;
 
+  
   const isPending   = status === "pending";
   const isAccepted  = status === "accepted";
   const isDimmed    = status === "completed" || status === "rejected";
@@ -109,7 +110,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
           {isPending && (
             <>
               <button
-                onClick={() => onAccept(id)}
+                onClick={() => onAccept(_id)}
                 className="flex items-center gap-2 px-5 py-2 rounded-md text-sm font-semibold shadow-sm hover:brightness-95 hover:-translate-y-0.5 active:scale-95 transition-all"
                 style={{
                   backgroundColor: "var(--color-success)",
@@ -125,7 +126,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
                 Accept Request
               </button>
               <button
-                onClick={() => onReject(id)}
+                onClick={() => onReject(_id)}
                 className="flex items-center gap-2 px-5 py-2 rounded-md text-sm font-semibold border hover:opacity-80 active:scale-95 transition-all"
                 style={{
                   borderColor: "var(--color-danger)",

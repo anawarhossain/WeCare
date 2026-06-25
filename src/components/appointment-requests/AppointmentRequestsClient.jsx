@@ -7,6 +7,7 @@ import EmptyState from "./EmptyState";
 import ToastNotification from "./ToastNotification";
 import PrescriptionModal from "./PrescriptionModal";
 import { IoMdAdd } from "react-icons/io";
+import { updateAppointmentStatus } from "@/lib/actions/appointments";
 
 export default function AppointmentRequestsClient({ initialAppointments }) {
   const [appointments, setAppointments] = useState(initialAppointments);
@@ -31,16 +32,14 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
   }, []);
 
   // ── Action handlers ───────────────────────────────────────────
-  const handleAccept = async (id) => {
+  const handleAccept = async (_id) => {
     try {
-      // 👈 ডাইনামিক API কল করুন (আপনার ব্যাকএন্ড রুট অনুযায়ী পরিবর্তন করতে পারেন)
-      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${id}/status`, {
-      //   method: "PATCH",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ status: "accepted" })
-      // });
+      await updateAppointmentStatus(_id, {
+        treadmendStatus: "accepted",
+      });
 
-      updateStatus(id, "accepted");
+      updateStatus(_id, "accepted");
+      updateStatus(_id, "pending");
       setToast({
         message: "Appointment accepted successfully.",
         subtext: "Patient will be notified shortly.",
