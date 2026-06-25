@@ -1,6 +1,8 @@
 // lib/appointments.js
 // Replace with your real DB / API calls
 
+import { serverGet } from "../core/server";
+
 export const APPOINTMENT_STATUSES = ["pending", "accepted", "completed", "rejected"];
 
 const MOCK_APPOINTMENTS = [
@@ -73,18 +75,20 @@ const MOCK_APPOINTMENTS = [
  * Fetch all appointments (server-side)
  * In production: replace with DB query
  */
-export async function getAppointments() {
-  // const res = await fetch(`${process.env.API_BASE_URL}/doctor/appointments`, { cache: "no-store" });
-  // return res.json();
-  return MOCK_APPOINTMENTS;
+export async function getAppointments(doctorId) {
+  return await serverGet(`api/appointments/${doctorId}`);
 }
+
+// export async function getAppointments() {
+//   return MOCK_APPOINTMENTS;
+// }
 
 /**
  * Count appointments per status (used for tab badges)
  */
-export function countByStatus(appointments) {
-  return appointments.reduce((acc, apt) => {
-    acc[apt.status] = (acc[apt.status] ?? 0) + 1;
-    return acc;
-  }, {});
-}
+// export function countByStatus(appointments) {
+//   return appointments.reduce((acc, apt) => {
+//     acc[apt.status] = (acc[apt.status] ?? 0) + 1;
+//     return acc;
+//   }, {});
+// }

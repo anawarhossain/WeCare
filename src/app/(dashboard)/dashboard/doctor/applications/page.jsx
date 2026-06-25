@@ -3,6 +3,7 @@
 
 import AppointmentRequestsClient from "@/components/appointment-requests/AppointmentRequestsClient";
 import { getAppointments } from "@/lib/api/appointments";
+import { getUserSession } from "@/lib/core/session";
 
 export const metadata = {
   title: "Appointment Requests | WeCare",
@@ -10,8 +11,13 @@ export const metadata = {
 };
 
 export default async function AppointmentRequestsPage() {
-  // SSR: fetch on server — no loading spinner on first paint
-  const appointments = await getAppointments();
+
+  const user = await getUserSession();
+  const userId = "6a3a7ca8ee0b0995383077c3";
+  console.log("user", user, userId);
+  
+  const appointments = await getAppointments(userId);
+  console.log("appointments", appointments);
 
   return (
     <main

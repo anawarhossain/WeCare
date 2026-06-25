@@ -9,7 +9,15 @@ import { ImCancelCircle } from "react-icons/im";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 export default function AppointmentCard({ appointment, onAccept, onReject, onComplete }) {
-  const { id, patientName, patientAvatar, date, time, notes, status } = appointment;
+  const {
+    id,
+    patientName,
+    patientImage: patientAvatar,
+    date,
+    time,
+    notes,
+    treadmendStatus: status,
+  } = appointment;
 
   const isPending   = status === "pending";
   const isAccepted  = status === "accepted";

@@ -19,14 +19,14 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
 
   // ── Count badges ──────────────────────────────────────────────
   const counts = appointments.reduce((acc, a) => {
-    acc[a.status] = (acc[a.status] ?? 0) + 1;
+    acc[a.treadmendStatus] = (acc[a.treadmendStatus] ?? 0) + 1;
     return acc;
   }, {});
 
   // ── Status mutation helper ────────────────────────────────────
   const updateStatus = useCallback((id, newStatus) => {
     setAppointments((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, status: newStatus } : a)),
+      prev.map((a) => (a.id === id ? { ...a, treadmendStatus: newStatus } : a)),
     );
   }, []);
 
@@ -108,7 +108,7 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
   };
 
   // ── Filtered list ─────────────────────────────────────────────
-  const filtered = appointments.filter((a) => a.status === activeTab);
+  const filtered = appointments.filter((a) => a.treadmendStatus === activeTab);
 
   return (
     <>
@@ -157,7 +157,7 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
         <div className="space-y-4">
           {filtered.map((appointment) => (
             <AppointmentCard
-              key={appointment.id}
+              key={appointment._id}
               appointment={appointment}
               onAccept={handleAccept}
               onReject={handleReject}

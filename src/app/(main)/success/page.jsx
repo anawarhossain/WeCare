@@ -28,14 +28,17 @@ export default async function Success({ searchParams }) {
         appointmentDate: metadata.appointmentDate,
         time: metadata.time,
         fee: parseFloat(metadata.fee),
+        notes: metadata.notes,
         stripeSessionId: session_id,
         paymentStatus: "paid",
         // customerEmail: customer_details?.email,
-        // customerCardName: customer_details?.name,
+        customerCardName: customer_details?.name,
         patientId: metadata.patientId,
         patientName: metadata.patientName,
         patientEmail: metadata.patientEmail,
         patientPhone: metadata.patientPhone,
+        patientImage: metadata.patientImage,
+        treadmendStatus: "pending",
       };
 
       // সার্ভারে ডাটা সেভ করার জন্য আপনার API অ্যাকশনটি কল করা

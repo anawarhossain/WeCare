@@ -21,6 +21,7 @@ export default function DoctorDetailsClient({ doctor }) {
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const tabSectionRef = useRef(null);
+  const [notes, setNotes] = useState("");
 
   const switchTab = (tabId) => setActiveTab(tabId);
 
@@ -43,6 +44,7 @@ export default function DoctorDetailsClient({ doctor }) {
       appointmentDate: selectedSlot.date,
       time: selectedSlot.time,
       fee: doctor.consultationFee,
+      notes: notes,
     };
 
     try {
@@ -126,6 +128,8 @@ export default function DoctorDetailsClient({ doctor }) {
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmBooking}
           loading={loading}
+          notes={notes}
+          setNotes={setNotes}
         />
       )}
     </>

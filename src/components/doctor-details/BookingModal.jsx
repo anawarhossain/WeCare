@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FaMoneyBills } from "react-icons/fa6";
 import { BsCalendar4Event } from "react-icons/bs";
 
-export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm }) {
+export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm, notes, setNotes }) {
   // Close on Escape
   useEffect(() => {
     const handler = (e) => { if (e.key === "Escape") onClose(); };
@@ -131,11 +131,24 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
             </div>
           </div>
 
+          {/* Notes */}
+          <div className="w-full">
+            <input
+              required
+              onChange={(e) => setNotes(e.target.value)}
+              name="notes"
+              className="w-full p-4 rounded-xl border shadow-sm"
+              type="text"
+              placeholder="Write something about your illness"
+            />
+          </div>
+
           {/* Action buttons */}
           <div className="flex flex-col gap-3">
             <button
+              disabled={!notes?.trim()}
               onClick={onConfirm}
-              className="w-full py-3 rounded-xl font-semibold text-base hover:brightness-95 active:scale-95 transition-all"
+              className="w-full py-3 rounded-xl font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
                 backgroundColor: "var(--color-success)",
                 color: "#ffffff",
