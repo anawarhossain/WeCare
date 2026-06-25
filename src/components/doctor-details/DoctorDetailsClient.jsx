@@ -7,6 +7,7 @@ import BookingTab from "./BookingTab";
 import ReviewsTab from "./ReviewsTab";
 import BookingSidebar from "./BookingSidebar";
 import BookingModal from "./BookingModal";
+import { createCheckoutSession } from "@/app/actions/stripe";
 
 const TABS = [
   { id: "about", label: "About" },
@@ -18,6 +19,7 @@ export default function DoctorDetailsClient({ doctor }) {
   const [activeTab, setActiveTab] = useState("about");
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const tabSectionRef = useRef(null);
 
   const switchTab = (tabId) => setActiveTab(tabId);
@@ -32,21 +34,32 @@ export default function DoctorDetailsClient({ doctor }) {
     }, 50);
   };
 
-  const handleConfirmBooking = () => {
-
+  const handleConfirmBooking = async () => {
     const bookingPayload = {
       doctorId: doctor.id,
+      doctorName: doctor.name,
+      hospitalName: doctor.hospitalName,
       slotId: selectedSlot.slotId,
       appointmentDate: selectedSlot.date,
       time: selectedSlot.time,
+      fee: doctor.consultationFee,
     };
 
     try {
-      // e.g., await fetch('/api/bookings/new', { method: 'POST', body: JSON.stringify(bookingPayload) })
-      alert("Booking Confirmed Successfully!");
+      setLoading(true);
+      // ১. স্ট্রাইপ পেমেন্ট সেশন তৈরি করা
+      const { url } = await createCheckoutSession(bookingPayload);
+
+      if (url) {
+        // ২. স্ট্রাইপ পেমেন্ট চেকআউট পেজে রিডাইরেক্ট করা
+        window.location.href = url;
+      }
       setShowModal(false);
     } catch (error) {
-      console.error("Booking failed:", error);
+      console.error("Booking error:", error);
+      alert("Something went wrong with the payment gateway.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -112,6 +125,7 @@ export default function DoctorDetailsClient({ doctor }) {
           selectedSlot={selectedSlot}
           onClose={() => setShowModal(false)}
           onConfirm={handleConfirmBooking}
+          loading={loading}
         />
       )}
     </>
