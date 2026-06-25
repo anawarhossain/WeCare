@@ -93,6 +93,10 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
         appointmentId,
         doctorId: selectedAppointment?.doctorId,
         patientId: selectedAppointment?.patientId,
+        patientName: selectedAppointment?.patientName,
+        patientImage: selectedAppointment?.patientImage,
+        appointmentDate: selectedAppointment?.appointmentDate,
+        time: selectedAppointment?.time,
         medicines: prescriptionData.medicines,
         instructions: prescriptionData.instructions,
       });
