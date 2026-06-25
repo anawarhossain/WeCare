@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
 export default async function DoctorDetailsPage({ params }) {
   const { id } = await params;
   const doctor = await getDoctorById(id);
-  console.log("doctor data form server", doctor.slots);
+  // console.log("doctor data form server", doctor.slots);
 
   if (!doctor) notFound();
 

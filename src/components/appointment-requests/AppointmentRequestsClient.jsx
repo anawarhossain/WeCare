@@ -47,7 +47,7 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
   const handleComplete = (id) => {
     updateStatus(id, "completed");
     setToast({
-      message: "Appointment marked as completed.",
+      message: "Appointment completed.",
       subtext: "Redirecting to prescription management...",
       type: "success",
     });

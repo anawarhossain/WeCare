@@ -147,7 +147,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
               >
                 <IoMdCheckmarkCircleOutline />
               </span>
-              Mark as Completed
+              Completed and make prescription
             </button>
           )}
 

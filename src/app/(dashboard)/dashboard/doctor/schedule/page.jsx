@@ -16,7 +16,7 @@ export default async function ManageSchedulePage() {
   const userId = await getUserSession();
   const doctorId = await getDoctor(userId.id)
   const { slots, stats } = await getScheduleDataById(doctorId._id);
-  console.log("schedule data form server", slots, stats);
+  // console.log("schedule data form server", slots, stats);
 
   return (
     <main

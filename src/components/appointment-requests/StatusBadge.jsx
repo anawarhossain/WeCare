@@ -31,7 +31,7 @@ export default function StatusBadge({ status }) {
       className="text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider whitespace-nowrap"
       style={{ backgroundColor: style.bg, color: style.text }}
     >
-      {style.label}
+      {style.label} 
     </span>
   );
 }
