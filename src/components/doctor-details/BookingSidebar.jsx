@@ -1,3 +1,4 @@
+import { FaMoneyBills } from "react-icons/fa6";
 import { MdEventAvailable, MdSupportAgent } from "react-icons/md";
 
 export default function BookingSidebar({ doctor, selectedSlot, onConfirm }) {
@@ -83,7 +84,7 @@ export default function BookingSidebar({ doctor, selectedSlot, onConfirm }) {
                   className="text-xl font-bold"
                   style={{ color: "var(--color-primary)" }}
                 >
-                  ${doctor.fee.toFixed(2)}
+                  ${doctor.consultationFee}
                 </span>
               </div>
             </div>
@@ -97,7 +98,9 @@ export default function BookingSidebar({ doctor, selectedSlot, onConfirm }) {
               }}
             >
               Confirm & Pay
-              <span className=" text-xl">payments</span>
+              <span className=" text-xl">
+                <FaMoneyBills />
+              </span>
             </button>
 
             <p

@@ -2,20 +2,31 @@
 
 import { useState, useMemo } from "react";
 
-export default function BookingTab({ slots, onSlotSelect }) {
+export default function BookingTab({ docSlots, onSlotSelect }) {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);
   const [selectedSlot, setSelectedSlot] = useState(null);
 
-  // Build next 6 days from today
+  // ১. আজ থেকে পরবর্তী ৬ দিনের নাম ও তারিখ তৈরি করা
   const days = useMemo(() => {
-    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const dayNames = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const shortDayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
     return Array.from({ length: 6 }, (_, i) => {
       const d = new Date();
       d.setDate(d.getDate() + i);
       return {
-        label: dayNames[d.getDay()],
+        shortLabel: shortDayNames[d.getDay()], // Sun, Mon
+        fullLabel: dayNames[d.getDay()], // Sunday, Monday
         date: d.getDate(),
-        full: d.toLocaleDateString("en-US", {
+        fullDateString: d.toLocaleDateString("en-US", {
           month: "short",
           day: "numeric",
           year: "numeric",
@@ -24,66 +35,84 @@ export default function BookingTab({ slots, onSlotSelect }) {
     });
   }, []);
 
-  const handleSlotClick = (time) => {
-    setSelectedSlot(time);
-    onSlotSelect?.({ time, date: days[selectedDayIndex].full });
+  // ২. সিলেক্ট করা দিনের উপর ভিত্তি করে slots ডাটাকে Morning এবং Afternoon-এ রূপান্তর করা
+  const formattedSlots = useMemo(() => {
+    const activeDayName = days[selectedDayIndex].fullLabel; // e.g., "Monday"
+    const daySlots = docSlots?.[activeDayName] || [];
+
+    const morning = [];
+    const afternoon = [];
+
+    daySlots.forEach((slot) => {
+      // label চেক করা (e.g., "09:00 AM - 09:30 AM")
+      // যদি শুরুর সময় AM হয় তবে Morning, PM হলে Afternoon
+      if (slot.label.includes("AM")) {
+        morning.push(slot);
+      } else {
+        afternoon.push(slot);
+      }
+    });
+
+    return { morning, afternoon };
+  }, [selectedDayIndex, docSlots, days]);
+
+  const handleSlotClick = (slot) => {
+    setSelectedSlot(slot.id); // ইউনিক আইডি ট্র্যাক করার জন্য
+    onSlotSelect?.({
+      slotId: slot.id,
+      time: slot.label,
+      date: days[selectedDayIndex].fullDateString,
+    });
   };
 
-  const SlotButton = ({ time }) => {
-    const isSelected = selectedSlot === time;
+  const SlotButton = ({ slot }) => {
+    const isSelected = selectedSlot === slot.id;
     return (
       <button
-        onClick={() => handleSlotClick(time)}
+        onClick={() => handleSlotClick(slot)}
         className="px-5 py-2.5 rounded-full text-sm font-medium border transition-all hover:scale-105 active:scale-95"
         style={{
           backgroundColor: isSelected ? "var(--color-primary)" : "transparent",
-          borderColor: isSelected ? "var(--color-primary)" : "var(--border-default)",
-          color: isSelected ? "var(--text-on-primary)" : "var(--text-secondary)",
+          borderColor: isSelected
+            ? "var(--color-primary)"
+            : "var(--border-default)",
+          color: isSelected ? "#ffffff" : "var(--text-primary)",
         }}
       >
-        {time}
+        {slot.label}
       </button>
     );
   };
 
   return (
-    <div
-      className="p-6 md:p-8 rounded-2xl border shadow-sm"
-      style={{
-        backgroundColor: "var(--bg-card)",
-        borderColor: "var(--border-default)",
-      }}
-    >
-      <h2
-        className="text-2xl font-semibold mb-6"
-        style={{ color: "var(--text-primary)" }}
-      >
-        Select a Time Slot
-      </h2>
-
-      {/* Week Picker */}
-      <div className="flex gap-3 overflow-x-auto pb-4 hide-scrollbar">
-        {days.map((day, i) => {
-          const isActive = selectedDayIndex === i;
+    <div className="w-full">
+      {/* Days Horizontal Scroll */}
+      <div className="flex gap-3 overflow-x-auto pb-3 hide-scrollbar">
+        {days.map((day, index) => {
+          const isActive = selectedDayIndex === index;
           return (
             <button
-              key={i}
+              key={index}
               onClick={() => {
-                setSelectedDayIndex(i);
-                setSelectedSlot(null);
+                setSelectedDayIndex(index);
+                setSelectedSlot(null); // দিন পরিবর্তন করলে স্লট সিলেকশন রিসেট হবে
                 onSlotSelect?.(null);
               }}
-              className="flex flex-col items-center justify-center min-w-[76px] p-3 border-2 rounded-xl transition-all"
+              className="flex flex-col items-center p-3 min-w-16 rounded-xl border transition-all shrink-0"
               style={{
-                borderColor: isActive ? "var(--color-primary)" : "transparent",
+                borderColor: isActive
+                  ? "var(--color-primary)"
+                  : "var(--border-default)",
                 backgroundColor: isActive
-                  ? "var(--color-primary-light)"
-                  : "var(--bg-surface)",
-                color: isActive ? "var(--color-primary)" : "var(--text-secondary)",
+                  ? "var(--primary-100)"
+                  : "transparent",
+                color: isActive
+                  ? "var(--color-primary)"
+                  : "var(--text-secondary)",
               }}
             >
               <span className="text-[11px] font-semibold uppercase tracking-widest opacity-70">
-                {day.label}
+                {day.shortLabel}
               </span>
               <span className="text-2xl font-bold mt-0.5">{day.date}</span>
             </button>
@@ -100,31 +129,36 @@ export default function BookingTab({ slots, onSlotSelect }) {
           Morning Sessions
         </h3>
         <div className="flex flex-wrap gap-3">
-          {slots.morning.map((t) => (
-            <SlotButton key={t} time={t} />
-          ))}
+          {formattedSlots.morning.length > 0 ? (
+            formattedSlots.morning.map((slot) => (
+              <SlotButton key={slot.id} slot={slot} />
+            ))
+          ) : (
+            <p className="text-sm text-gray-400">No morning slots available</p>
+          )}
         </div>
       </div>
 
-      {/* Afternoon Slots */}
+      {/* Afternoon/Evening Slots */}
       <div className="mt-6">
         <h3
           className="text-lg font-semibold mb-3"
           style={{ color: "var(--text-primary)" }}
         >
-          Afternoon Sessions
+          Afternoon & Evening Sessions
         </h3>
         <div className="flex flex-wrap gap-3">
-          {slots.afternoon.map((t) => (
-            <SlotButton key={t} time={t} />
-          ))}
+          {formattedSlots.afternoon.length > 0 ? (
+            formattedSlots.afternoon.map((slot) => (
+              <SlotButton key={slot.id} slot={slot} />
+            ))
+          ) : (
+            <p className="text-sm text-gray-400">
+              No afternoon slots available
+            </p>
+          )}
         </div>
       </div>
-
-      <style jsx>{`
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `}</style>
     </div>
   );
 }

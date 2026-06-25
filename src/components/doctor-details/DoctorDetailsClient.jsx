@@ -74,7 +74,7 @@ export default function DoctorDetailsClient({ doctor }) {
           {activeTab === "about" && <AboutTab doctor={doctor} />}
           {activeTab === "booking" && (
             <BookingTab
-              slots={doctor.slots}
+              docSlots={doctor.slots}
               onSlotSelect={setSelectedSlot}
             />
           )}

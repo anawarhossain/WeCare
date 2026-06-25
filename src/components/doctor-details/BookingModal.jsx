@@ -2,6 +2,8 @@
 
 import { useEffect } from "react";
 import Image from "next/image";
+import { FaMoneyBills } from "react-icons/fa6";
+import { BsCalendar4Event } from "react-icons/bs";
 
 export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm }) {
   // Close on Escape
@@ -20,8 +22,13 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
   return (
     <div
       className="fixed inset-0 z-100 flex items-center justify-center p-4"
-      style={{ backgroundColor: "rgba(0,0,0,0.6)", backdropFilter: "blur(4px)" }}
-      onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
+      style={{
+        backgroundColor: "rgba(0,0,0,0.6)",
+        backdropFilter: "blur(4px)",
+      }}
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
     >
       <div
         className="max-w-md w-full rounded-2xl overflow-hidden shadow-2xl"
@@ -45,7 +52,8 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
         <div className="p-6 md:p-8 space-y-6">
           {/* Doctor mini row */}
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full overflow-hidden relative shrink-0 border-2"
+            <div
+              className="w-16 h-16 rounded-full overflow-hidden relative shrink-0 border-2"
               style={{ borderColor: "var(--primary-200)" }}
             >
               <Image
@@ -82,7 +90,7 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
                 className=" text-xl"
                 style={{ color: "var(--color-primary)" }}
               >
-                event
+                <BsCalendar4Event />
               </span>
               <div>
                 <p
@@ -104,7 +112,7 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
                 className=" text-xl"
                 style={{ color: "var(--color-primary)" }}
               >
-                payments
+                <FaMoneyBills />
               </span>
               <div>
                 <p
@@ -117,7 +125,7 @@ export default function BookingModal({ doctor, selectedSlot, onClose, onConfirm 
                   className="text-base font-semibold"
                   style={{ color: "var(--text-primary)" }}
                 >
-                  ${doctor.fee.toFixed(2)}
+                  ${doctor.consultationFee}
                 </p>
               </div>
             </div>
