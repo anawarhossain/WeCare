@@ -25,15 +25,29 @@ export default function DoctorDetailsClient({ doctor }) {
   const handleBookClick = () => {
     switchTab("booking");
     setTimeout(() => {
-      tabSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      tabSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }, 50);
   };
 
-  const handleConfirmPay = () => {
-    // Navigate to payment page or handle payment flow
-    // router.push(`/payment?doctorId=${doctor.id}&...`);
-    alert("Redirecting to payment... (wire up your payment flow here)");
-    setShowModal(false);
+  const handleConfirmBooking = () => {
+
+    const bookingPayload = {
+      doctorId: doctor.id,
+      slotId: selectedSlot.slotId,
+      appointmentDate: selectedSlot.date,
+      time: selectedSlot.time,
+    };
+
+    try {
+      // e.g., await fetch('/api/bookings/new', { method: 'POST', body: JSON.stringify(bookingPayload) })
+      alert("Booking Confirmed Successfully!");
+      setShowModal(false);
+    } catch (error) {
+      console.error("Booking failed:", error);
+    }
   };
 
   return (
@@ -97,7 +111,7 @@ export default function DoctorDetailsClient({ doctor }) {
           doctor={doctor}
           selectedSlot={selectedSlot}
           onClose={() => setShowModal(false)}
-          onConfirm={handleConfirmPay}
+          onConfirm={handleConfirmBooking}
         />
       )}
     </>
