@@ -8,6 +8,8 @@ import ToastNotification from "./ToastNotification";
 import PrescriptionModal from "./PrescriptionModal";
 import { IoMdAdd } from "react-icons/io";
 import { updateAppointmentStatus } from "@/lib/actions/appointments";
+import { isRedirectError } from "@/lib/core/server";
+import { savePrescription } from "@/lib/actions/prescriptions";
 
 export default function AppointmentRequestsClient({ initialAppointments }) {
   const [appointments, setAppointments] = useState(initialAppointments);
@@ -27,50 +29,58 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
   // ── Status mutation helper ────────────────────────────────────
   const updateStatus = useCallback((id, newStatus) => {
     setAppointments((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, treadmendStatus: newStatus } : a)),
+      prev.map((a) =>
+        a._id === id ? { ...a, treadmendStatus: newStatus } : a,
+      ),
     );
   }, []);
 
   // ── Action handlers ───────────────────────────────────────────
   const handleAccept = async (_id) => {
     try {
-      await updateAppointmentStatus(_id, {
-        treadmendStatus: "accepted",
-      });
-
+      await updateAppointmentStatus(_id, { treadmendStatus: "accepted" });
       updateStatus(_id, "accepted");
-      updateStatus(_id, "pending");
+
       setToast({
         message: "Appointment accepted successfully.",
         subtext: "Patient will be notified shortly.",
         type: "success",
       });
     } catch (error) {
+      if (isRedirectError(error)) throw error; // session-expired redirect কে যেতে দিন
       console.error("Failed to accept appointment:", error);
+      setToast({
+        message: "Something went wrong.",
+        subtext: "Could not accept the appointment. Try again.",
+        type: "error",
+      });
     }
   };
 
-  const handleReject = async (id) => {
+  const handleReject = async (_id) => {
     try {
-      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${id}/status`, {
-      //   method: "PATCH",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ status: "rejected" })
-      // });
+      await updateAppointmentStatus(_id, { treadmendStatus: "rejected" });
 
-      updateStatus(id, "rejected");
+      updateStatus(_id, "rejected");
+
       setToast({
         message: "Appointment rejected.",
         subtext: "Patient will receive a cancellation notice.",
         type: "error",
       });
     } catch (error) {
+      if (isRedirectError(error)) throw error;
       console.error("Failed to reject appointment:", error);
+      setToast({
+        message: "Something went wrong.",
+        subtext: "Could not reject the appointment. Try again.",
+        type: "error",
+      });
     }
   };
 
   // বাটন ক্লিক হ্যান্ডলার (মোডাল ওপেন করবে)
-  const handleCompleteClick = (appointment) => {
+  const handleCompleteClick = (_id, appointment) => {
     setSelectedAppointment(appointment);
     setIsModalOpen(true);
   };
@@ -78,18 +88,26 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
   // প্রেসক্রিপশন সেভ করার মেইন হ্যান্ডলার (ডাইনামিক ব্যাকএন্ড কানেকশন)
   const handleSavePrescription = async (appointmentId, prescriptionData) => {
     try {
-      // 👈 ডাটাবেজে প্রেসক্রিপশন সেভ করা এবং অ্যাপয়েন্টমেন্ট কমপ্লিট করার এপিআই কল
-      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${appointmentId}/complete`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify(prescriptionData)
-      // });
+      // ১. প্রেসক্রিপশন সেভ করা (আগে এই API কলটাই কমেন্ট করা ছিল, কোথাও সেভ হতো না)
+      await savePrescription({
+        appointmentId,
+        doctorId: selectedAppointment?.doctorId,
+        patientId: selectedAppointment?.patientId,
+        medicines: prescriptionData.medicines,
+        instructions: prescriptionData.instructions,
+      });
 
-      // লোকাল স্টেট আপডেট
+      // ২. প্রেসক্রিপশন সেভ সফল হলেই appointment-কে completed করা
+      await updateAppointmentStatus(appointmentId, {
+        treadmendStatus: "completed",
+      });
+
+      // ৩. লোকাল স্টেট আপডেট
       updateStatus(appointmentId, "completed");
+
       setIsModalOpen(false);
       setSelectedAppointment(null);
-      setActiveTab("completed"); // সরাসরি কমপ্লিটেড ট্যাবে নিয়ে যাবে
+      setActiveTab("completed");
 
       setToast({
         message: "Prescription saved successfully!",
@@ -97,6 +115,7 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
         type: "success",
       });
     } catch (error) {
+      if (isRedirectError(error)) throw error;
       console.error("Failed to save prescription:", error);
       setToast({
         message: "Something went wrong.",

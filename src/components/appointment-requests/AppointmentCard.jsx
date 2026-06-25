@@ -13,7 +13,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
     _id,
     patientName,
     patientImage: patientAvatar,
-    date,
+    appointmentDate:date,
     time,
     notes,
     treadmendStatus: status,
@@ -39,8 +39,8 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
         style={{ borderColor: "var(--border-default)" }}
       >
         <Image
-          src={patientAvatar}
-          alt={patientName}
+          src={patientAvatar || "/doctor.jpg"}
+          alt={patientName || "Patient"}
           fill
           className="object-cover"
           sizes="56px"
@@ -143,7 +143,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
 
           {isAccepted && (
             <button
-              onClick={() => onComplete(appointment)}
+              onClick={() => onComplete(_id, appointment)}
               className="flex items-center gap-2 px-5 py-2 rounded-md text-sm font-semibold shadow-sm hover:brightness-95 hover:-translate-y-0.5 active:scale-95 transition-all"
               style={{
                 backgroundColor: "var(--color-primary)",

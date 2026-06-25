@@ -5,6 +5,8 @@ import { serverGet } from "../core/server";
 
 
 export async function getAppointments(doctorId) {
+  if (!doctorId) return []; // doctorId না থাকলে server.js-কে অর্থহীন কল না করা
+
   return await serverGet(`api/appointments/${doctorId}`);
 }
 

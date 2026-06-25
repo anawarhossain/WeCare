@@ -5,7 +5,7 @@ import { serverMutation } from "../core/server"
 export const updateAppointmentStatus = async (id, data) => {
     const res = await serverMutation(`api/appointments/${id}`, data, "PUT");
 
-    revalidatePath("/dashboard/doctor/applications");
+    revalidatePath("/doctor/appointment-requests");
     
 
     return res;

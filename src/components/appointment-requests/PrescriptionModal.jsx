@@ -27,12 +27,11 @@ export default function PrescriptionModal({ appointment, onClose, onSave }) {
     setSaving(true);
 
     // প্যারেন্ট কম্পোনেন্টে ডাটা পাঠানো
-    await onSave(appointment.id, {
-      medicines,
-      instructions,
-    });
-
-    setSaving(false);
+    try {
+      await onSave(appointment._id, { medicines, instructions });
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (

@@ -3,6 +3,7 @@
 
 import AppointmentRequestsClient from "@/components/appointment-requests/AppointmentRequestsClient";
 import { getAppointments } from "@/lib/api/appointments";
+import { getDoctor } from "@/lib/api/doctors";
 import { getUserSession } from "@/lib/core/session";
 
 export const metadata = {
@@ -13,11 +14,15 @@ export const metadata = {
 export default async function AppointmentRequestsPage() {
 
   const user = await getUserSession();
-  const userId = "6a3a7ca8ee0b0995383077c3";
-  console.log("user", user, userId);
+  if (!user) {
+    redirect("/sign-in");
+  }
+  const userId = user?.id;
+  const doctor = await getDoctor(userId);
   
-  const appointments = await getAppointments(userId);
-  console.log("appointments", appointments);
+  const doctorId = doctor?._id
+  
+  const appointments = await getAppointments(doctorId);
 
 
   return (
