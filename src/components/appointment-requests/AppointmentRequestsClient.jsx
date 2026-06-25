@@ -5,12 +5,17 @@ import TabNav from "./TabNav";
 import AppointmentCard from "./AppointmentCard";
 import EmptyState from "./EmptyState";
 import ToastNotification from "./ToastNotification";
+import PrescriptionModal from "./PrescriptionModal";
 import { IoMdAdd } from "react-icons/io";
 
 export default function AppointmentRequestsClient({ initialAppointments }) {
   const [appointments, setAppointments] = useState(initialAppointments);
-  const [activeTab, setActiveTab]       = useState("pending");
-  const [toast, setToast]               = useState(null); // { message, subtext, type }
+  const [activeTab, setActiveTab] = useState("pending");
+  const [toast, setToast] = useState(null); // { message, subtext, type }
+
+  // মোডালের জন্য নতুন স্টেট
+  const [selectedAppointment, setSelectedAppointment] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // ── Count badges ──────────────────────────────────────────────
   const counts = appointments.reduce((acc, a) => {
@@ -21,36 +26,85 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
   // ── Status mutation helper ────────────────────────────────────
   const updateStatus = useCallback((id, newStatus) => {
     setAppointments((prev) =>
-      prev.map((a) => (a.id === id ? { ...a, status: newStatus } : a))
+      prev.map((a) => (a.id === id ? { ...a, status: newStatus } : a)),
     );
   }, []);
 
   // ── Action handlers ───────────────────────────────────────────
-  const handleAccept = (id) => {
-    updateStatus(id, "accepted");
-    setToast({
-      message: "Appointment accepted successfully.",
-      subtext: "Patient will be notified shortly.",
-      type: "success",
-    });
+  const handleAccept = async (id) => {
+    try {
+      // 👈 ডাইনামিক API কল করুন (আপনার ব্যাকএন্ড রুট অনুযায়ী পরিবর্তন করতে পারেন)
+      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${id}/status`, {
+      //   method: "PATCH",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ status: "accepted" })
+      // });
+
+      updateStatus(id, "accepted");
+      setToast({
+        message: "Appointment accepted successfully.",
+        subtext: "Patient will be notified shortly.",
+        type: "success",
+      });
+    } catch (error) {
+      console.error("Failed to accept appointment:", error);
+    }
   };
 
-  const handleReject = (id) => {
-    updateStatus(id, "rejected");
-    setToast({
-      message: "Appointment rejected.",
-      subtext: "Patient will receive a cancellation notice.",
-      type: "error",
-    });
+  const handleReject = async (id) => {
+    try {
+      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${id}/status`, {
+      //   method: "PATCH",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ status: "rejected" })
+      // });
+
+      updateStatus(id, "rejected");
+      setToast({
+        message: "Appointment rejected.",
+        subtext: "Patient will receive a cancellation notice.",
+        type: "error",
+      });
+    } catch (error) {
+      console.error("Failed to reject appointment:", error);
+    }
   };
 
-  const handleComplete = (id) => {
-    updateStatus(id, "completed");
-    setToast({
-      message: "Appointment completed.",
-      subtext: "Redirecting to prescription management...",
-      type: "success",
-    });
+  // বাটন ক্লিক হ্যান্ডলার (মোডাল ওপেন করবে)
+  const handleCompleteClick = (appointment) => {
+    setSelectedAppointment(appointment);
+    setIsModalOpen(true);
+  };
+
+  // প্রেসক্রিপশন সেভ করার মেইন হ্যান্ডলার (ডাইনামিক ব্যাকএন্ড কানেকশন)
+  const handleSavePrescription = async (appointmentId, prescriptionData) => {
+    try {
+      // 👈 ডাটাবেজে প্রেসক্রিপশন সেভ করা এবং অ্যাপয়েন্টমেন্ট কমপ্লিট করার এপিআই কল
+      // await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/appointments/${appointmentId}/complete`, {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(prescriptionData)
+      // });
+
+      // লোকাল স্টেট আপডেট
+      updateStatus(appointmentId, "completed");
+      setIsModalOpen(false);
+      setSelectedAppointment(null);
+      setActiveTab("completed"); // সরাসরি কমপ্লিটেড ট্যাবে নিয়ে যাবে
+
+      setToast({
+        message: "Prescription saved successfully!",
+        subtext: "Appointment status updated to completed.",
+        type: "success",
+      });
+    } catch (error) {
+      console.error("Failed to save prescription:", error);
+      setToast({
+        message: "Something went wrong.",
+        subtext: "Could not save prescription. Try again.",
+        type: "error",
+      });
+    }
   };
 
   // ── Filtered list ─────────────────────────────────────────────
@@ -107,10 +161,22 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
               appointment={appointment}
               onAccept={handleAccept}
               onReject={handleReject}
-              onComplete={handleComplete}
+              onComplete={handleCompleteClick}
             />
           ))}
         </div>
+      )}
+
+      {/* Prescription Modal */}
+      {isModalOpen && selectedAppointment && (
+        <PrescriptionModal
+          appointment={selectedAppointment}
+          onClose={() => {
+            setIsModalOpen(false);
+            setSelectedAppointment(null);
+          }}
+          onSave={handleSavePrescription}
+        />
       )}
 
       {/* ── Toast ────────────────────────────────────────────── */}

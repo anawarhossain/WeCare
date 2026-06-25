@@ -134,7 +134,7 @@ export default function AppointmentCard({ appointment, onAccept, onReject, onCom
 
           {isAccepted && (
             <button
-              onClick={() => onComplete(id)}
+              onClick={() => onComplete(appointment)}
               className="flex items-center gap-2 px-5 py-2 rounded-md text-sm font-semibold shadow-sm hover:brightness-95 hover:-translate-y-0.5 active:scale-95 transition-all"
               style={{
                 backgroundColor: "var(--color-primary)",
