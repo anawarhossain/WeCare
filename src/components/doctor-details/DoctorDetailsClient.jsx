@@ -15,7 +15,7 @@ const TABS = [
   { id: "reviews", label: "Reviews" },
 ];
 
-export default function DoctorDetailsClient({ doctor }) {
+export default function DoctorDetailsClient({ doctor, id, reviews, currentUser }) {
   const [activeTab, setActiveTab] = useState("about");
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -107,7 +107,7 @@ export default function DoctorDetailsClient({ doctor }) {
               onSlotSelect={setSelectedSlot}
             />
           )}
-          {activeTab === "reviews" && <ReviewsTab reviews={doctor.reviews} />}
+          {activeTab === "reviews" && <ReviewsTab doctorId={id} reviews={reviews} currentUser={currentUser} />}
         </div>
 
         {/* Right: Sticky Sidebar */}

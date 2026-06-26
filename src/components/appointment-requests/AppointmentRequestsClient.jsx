@@ -151,18 +151,6 @@ export default function AppointmentRequestsClient({ initialAppointments }) {
             portal.
           </p>
         </div>
-        <button
-          className="flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-semibold shadow-sm hover:brightness-95 hover:-translate-y-0.5 active:scale-95 transition-all"
-          style={{
-            backgroundColor: "var(--color-primary)",
-            color: "var(--text-on-primary)",
-          }}
-        >
-          <span className="text-xl">
-            <IoMdAdd />
-          </span>
-          Create Booking
-        </button>
       </div>
 
       {/* ── Tab Navigation ───────────────────────────────────── */}

@@ -12,13 +12,13 @@ export const metadata = {
 };
 
 export default async function FindDoctorsPage() {
-  // SSR: fetch doctors server-side
-  // const doctors = await getDoctors();
   const doctors = await getDoctors();
-  // console.log(doctors);
 
   return (
-    <main className="min-h-screen" style={{ backgroundColor: "var(--bg-base)" }}>
+    <main
+      className="min-h-screen"
+      style={{ backgroundColor: "var(--bg-base)" }}
+    >
       <FindDoctorsClient doctors={doctors} />
     </main>
   );
