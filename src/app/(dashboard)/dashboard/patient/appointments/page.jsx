@@ -1,7 +1,7 @@
 // app/patient/appointments/page.jsx
 // Server Component — fetches data, passes to client
 
-import PatientAppointmentsClient from "@/components/dashboard/patient/PatientAppointmentsClient";
+import PatientAppointmentsClient from "@/components/dashboard/patient/my-appointment/PatientAppointmentsClient";
 import { getPatientAppointments } from "@/lib/api/appointments";
 import { getUserSession } from "@/lib/core/session";
 import { redirect } from "next/navigation";
@@ -18,10 +18,10 @@ export default async function MyAppointmentsPage() {
     redirect("/sign-in");
   }
   const userId = user?.id;
-//   console.log("user", user, userId);
+  //   console.log("user", user, userId);
 
   const appointments = await getPatientAppointments(userId);
-//   console.log("appointments", appointments);
+  //   console.log("appointments", appointments);
 
   return (
     <main

@@ -7,7 +7,7 @@ import { cancelAppointmentByPatient } from "@/lib/actions/appointments";
 import { isRedirectError } from "@/lib/core/server";
 import SegmentedTabs from "./SegmentedTabs";
 import AppointmentsTable from "./AppointmentsTable";
-import ToastNotification from "../../common/ToastNotification";
+import ToastNotification from "@/components/common/ToastNotification";
 
 // "Jun 29, 2026" স্ট্রিং-কে আজকের তারিখের সাথে তুলনা করার হেল্পার
 const isFutureOrToday = (dateStr) => {

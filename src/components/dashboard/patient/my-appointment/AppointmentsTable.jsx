@@ -1,9 +1,9 @@
 "use client";
 
+import StatusBadge from "@/components/common/StatusBadge";
 import { Avatar } from "@heroui/react";
 import { IoEyeOutline } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
-import StatusBadge from "../../common/StatusBadge";
 import WaitTimeIndicator from "./WaitTimeIndicator";
 
 export default function AppointmentsTable({ appointments, onCancel }) {
