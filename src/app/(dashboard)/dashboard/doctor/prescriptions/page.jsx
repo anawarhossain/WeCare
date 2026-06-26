@@ -1,7 +1,7 @@
 // app/doctor/prescriptions/page.jsx
 // Server Component — fetches data, passes to client
 
-import PrescriptionsClient from "@/components/prescriptions/PrescriptionsClient";
+import PrescriptionsClient from "@/components/dashboard/doctor/prescriptions/PrescriptionsClient";
 import { getPrescriptions } from "@/lib/api/prescriptions";
 import { getDoctor } from "@/lib/api/doctors";
 import { getUserSession } from "@/lib/core/session";

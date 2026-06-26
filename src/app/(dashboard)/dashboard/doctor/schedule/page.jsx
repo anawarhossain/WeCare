@@ -1,7 +1,7 @@
 // app/doctor/manage-schedule/page.jsx
 // Server Component — fetches data server-side, passes to Client
 
-import ManageScheduleClient from "@/components/manage-schedule/ManageScheduleClient";
+import ManageScheduleClient from "@/components/dashboard/doctor/manage-schedule/ManageScheduleClient";
 import { getDoctor } from "@/lib/api/doctors";
 import { getScheduleDataById } from "@/lib/api/scheduls";
 import { getUserSession } from "@/lib/core/session";

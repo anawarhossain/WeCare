@@ -1,5 +1,5 @@
 import ProfileCard from "@/components/common/ProfileCard";
-import ProfessionalDetailsPage from "@/components/dashboard/doctor/ProfessionalDetailsPage";
+import ProfessionalDetailsPage from "@/components/dashboard/doctor/profile-manage/ProfessionalDetailsPage";
 import { getDoctor } from "@/lib/api/doctors";
 import { getUserSession } from "@/lib/core/session";
 
