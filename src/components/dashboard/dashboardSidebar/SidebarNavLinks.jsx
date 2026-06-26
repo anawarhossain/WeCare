@@ -1,66 +1,88 @@
 "use client";
-import { doctorMenuItems, patientMenuItems } from "@/components/common/menuItems";
-// Active link highlight-এর জন্য usePathname দরকার — তাই client
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  doctorMenuItems,
+  patientMenuItems,
+  adminMenuItems,
+} from "@/components/common/menuItems";
 
-// ── Icons ─────────────────────────────────────────────────────
-function NavIcon({ d, d2 }) {
-  return (
-    <svg
-      className="w-4 h-4 shrink-0"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.8}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" d={d} />
-      {d2 && <path strokeLinecap="round" strokeLinejoin="round" d={d2} />}
-    </svg>
-  );
+function getNavItems(role) {
+  if (role === "doctor") return doctorMenuItems;
+  if (role === "admin") return adminMenuItems;
+  return patientMenuItems;
 }
-
 
 export function SidebarNavLinks({ role }) {
   const pathname = usePathname();
-  const navItems = role === "doctor" ? doctorMenuItems : patientMenuItems;
+  const navItems = getNavItems(role);
 
   return (
     <nav aria-label="Dashboard navigation">
-      <ul className="flex flex-col gap-0.5 px-3">
+      <ul className="flex flex-col gap-1 px-3">
         {navItems.map((item) => {
+          // Exact match for root dashboard routes, prefix match for nested routes
           const isDashboard =
             item.href === `/${pathname.split("/").slice(1, 3).join("/")}`;
-
           const isActive = isDashboard
             ? pathname === item.href
             : pathname.startsWith(item.href);
+
           return (
             <li key={item.href}>
               <Link
                 href={item.href}
                 aria-current={isActive ? "page" : undefined}
-                className={
-                  isActive
-                    ? "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-white bg-indigo-600/20 border border-indigo-500/20 relative"
-                    : "flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-500 hover:text-zinc-200 hover:bg-white/5 transition-all duration-150"
-                }
+                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative group"
+                style={{
+                  backgroundColor: isActive
+                    ? "var(--color-primary-light)"
+                    : "transparent",
+                  color: isActive
+                    ? "var(--color-primary)"
+                    : "var(--text-secondary)",
+                  border: isActive
+                    ? "1px solid var(--color-primary)"
+                    : "1px solid transparent",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor =
+                      "var(--sidebar-hover)";
+                    e.currentTarget.style.color = "var(--text-primary)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                    e.currentTarget.style.color = "var(--text-secondary)";
+                  }
+                }}
               >
-                {/* Active left indicator */}
+                {/* Active Left Glow Indicator */}
                 {isActive && (
                   <span
-                    className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-indigo-400 rounded-full"
+                    className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 rounded-r-full"
+                    style={{ backgroundColor: "var(--color-primary)" }}
                     aria-hidden="true"
                   />
                 )}
-                {/* Icon */}
-                <span className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0">
+
+                {/* Icon Wrapper */}
+                <span
+                  className="size-5 flex items-center justify-center shrink-0 transition-colors"
+                  style={{
+                    color: isActive
+                      ? "var(--color-primary)"
+                      : "var(--text-muted)",
+                  }}
+                >
                   {item.icon}
                 </span>
+
                 {/* Label */}
-                {item.label}
+                <span className="truncate">{item.label}</span>
               </Link>
             </li>
           );

@@ -7,10 +7,12 @@ import {
 } from "react-icons/md";
 import { FaFilePrescription } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { RiAdminLine, RiUserHeartLine, RiUserStarLine } from "react-icons/ri";
+import { TbReportAnalytics } from "react-icons/tb";
 
 export const patientMenuItems = [
   {
-    label: "Dahsboard",
+    label: "Dashboard",
     href: "/dashboard/patient",
     icon: <LuLayoutDashboard />,
   },
@@ -61,5 +63,38 @@ export const doctorMenuItems = [
     label: "Profile Management",
     href: "/dashboard/doctor/profile",
     icon: <CgProfile />,
+  },
+];
+
+export const adminMenuItems = [
+  {
+    label: "Dashboard",
+    href: "/dashboard/admin",
+    icon: <LuLayoutDashboard />,
+  },
+  {
+    label: "Manage Doctors",
+    href: "/dashboard/admin/doctors",
+    icon: <RiUserStarLine />,
+  },
+  {
+    label: "Manage Patients",
+    href: "/dashboard/admin/patients",
+    icon: <RiUserHeartLine />,
+  },
+  {
+    label: "All Appointments",
+    href: "/dashboard/admin/appointments",
+    icon: <SlCalender />,
+  },
+  {
+    label: "Payments Overview",
+    href: "/dashboard/admin/payments",
+    icon: <MdOutlinePayments />,
+  },
+  {
+    label: "Admin Profile",
+    href: "/dashboard/admin/profile",
+    icon: <RiAdminLine />,
   },
 ];

@@ -1,4 +1,5 @@
 import DashboardSidebar from "@/components/dashboard/dashboardSidebar/DashboardSidebar";
+import Navbar from "@/components/navbar/Navbar";
 
 export default function DashboardLayout({ children }) {
   return (
@@ -13,6 +14,9 @@ export default function DashboardLayout({ children }) {
         {/* ── Main content area ── */}
         <div className="flex flex-col flex-1 min-w-0">
           {/* ── Top bar ── */}
+          <div className="hidden lg:block">
+            <Navbar />
+          </div>
           {/* <DashboardTopbar /> */}
 
           {/* ── Page content ── */}

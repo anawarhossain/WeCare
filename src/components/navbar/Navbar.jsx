@@ -108,7 +108,7 @@ const Navbar = async () => {
       mobileLinks={mobileLinks}
       rightContent={
         <div className="flex items-center gap-2">
-          <ThemeToggle />
+          {/* <ThemeToggle /> */}
           {!session ? <GuestUser /> : <AuthenticatedButtons user={session} />}
         </div>
       }

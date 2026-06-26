@@ -6,6 +6,8 @@ import { Sun, Moon } from "@gravity-ui/icons";
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
 
+ 
+
   return (
     <button
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
