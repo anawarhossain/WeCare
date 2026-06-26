@@ -1,9 +1,12 @@
 // Server Component — pure display, no client state
 
+import { MdAccountBalanceWallet, MdPendingActions, MdReceiptLong } from "react-icons/md";
+import { SlCalender } from "react-icons/sl";
+
 export default function SummaryCards({ summary }) {
   const cards = [
     {
-      icon: "account_balance_wallet",
+      icon: <MdAccountBalanceWallet />,
       iconBg: "var(--primary-100)",
       iconColor: "var(--color-primary)",
       label: "Total Revenue",
@@ -14,7 +17,7 @@ export default function SummaryCards({ summary }) {
       badgeIcon: "trending_up",
     },
     {
-      icon: "receipt_long",
+      icon: <MdReceiptLong />,
       iconBg: "var(--secondary-100)",
       iconColor: "var(--secondary-600)",
       label: "Total Transactions",
@@ -24,7 +27,7 @@ export default function SummaryCards({ summary }) {
       badgeText: "var(--text-secondary)",
     },
     {
-      icon: "calendar_month",
+      icon: <SlCalender />,
       iconBg: "var(--accent-100)",
       iconColor: "var(--accent-600)",
       label: "This Month's Revenue",
@@ -35,7 +38,7 @@ export default function SummaryCards({ summary }) {
       badgeIcon: "trending_down",
     },
     {
-      icon: "pending_actions",
+      icon: <MdPendingActions />,
       iconBg: "var(--accent-50)",
       iconColor: "var(--accent-600)",
       label: "Pending Payouts",
@@ -61,7 +64,7 @@ export default function SummaryCards({ summary }) {
               style={{ backgroundColor: iconBg }}
             >
               <span
-                className="material-symbols-outlined text-xl"
+                className=" text-xl"
                 style={{ color: iconColor }}
               >
                 {icon}
@@ -72,7 +75,7 @@ export default function SummaryCards({ summary }) {
               style={{ backgroundColor: badgeBg, color: badgeText }}
             >
               {badgeIcon && (
-                <span className="material-symbols-outlined text-[13px]">{badgeIcon}</span>
+                <span className=" text-[13px]">{badgeIcon}</span>
               )}
               {badge}
             </span>

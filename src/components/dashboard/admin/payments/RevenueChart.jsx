@@ -64,8 +64,8 @@ export default function RevenueChart({ data }) {
             color: "var(--text-primary)",
           }}
         >
-          {RANGE_OPTIONS.map((r) => (
-            <option key={r}>{r}</option>
+          {RANGE_OPTIONS.map((r, index) => (
+            <option key={index}>{r}</option>
           ))}
         </select>
       </div>
@@ -74,8 +74,8 @@ export default function RevenueChart({ data }) {
       <div className="relative w-full select-none" style={{ height: "320px" }}>
         {/* Y-axis labels */}
         <div className="absolute left-0 top-4 bottom-8 flex flex-col justify-between pointer-events-none">
-          {[...yTicks].reverse().map((t) => (
-            <span key={t.label} className="text-[10px] font-medium" style={{ color: "var(--text-muted)" }}>
+          {[...yTicks].reverse().map((t, index) => (
+            <span key={index} className="text-[10px] font-medium" style={{ color: "var(--text-muted)" }}>
               {t.label}
             </span>
           ))}
@@ -180,8 +180,8 @@ export default function RevenueChart({ data }) {
         >
           {data
             .filter((_, i) => i % Math.ceil(data.length / 6) === 0 || i === data.length - 1)
-            .map((d) => (
-              <span key={d.label}>{d.label}</span>
+            .map((d, index) => (
+              <span key={index}>{d.label}</span>
             ))}
         </div>
 

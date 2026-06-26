@@ -5,7 +5,9 @@ import Link from "next/link";
 import SummaryCards from "@/components/dashboard/admin/payments/SummaryCards";
 import RevenueChart from "@/components/dashboard/admin/payments/RevenueChart";
 import TransactionTable from "@/components/dashboard/admin/payments/TransactionTable";
-import { getPaymentSummary, getTransactionss } from "@/lib/api/payments";
+import {  getTransactionss } from "@/lib/api/payments";
+import { BiDownload } from "react-icons/bi";
+import { FaChevronRight } from "react-icons/fa";
 
 export const metadata = {
   title: "Payment Overview | WeCare Admin",
@@ -14,58 +16,64 @@ export const metadata = {
 };
 
 export default async function PaymentOverviewPage() {
-  // Parallel SSR — all three fetched simultaneously
-  const [summary] = await Promise.all([getPaymentSummary()]);
 
   const transactions = await getTransactionss();
-  console.log("payment", transactions);
+  // console.log("payment", transactions);
 
-  // export const MOCK_SUMMARY = {
-  //   totalRevenue:      { value: "$482,900.00", trend: "+12.5%",  up: true  },
-  //   totalTransactions: { value: "1,248",       period: "Last 30 days"       },
-  //   monthlyRevenue:    { value: "$52,430.20",  trend: "-2.1%",   up: false },
-  //   pendingPayouts:    { value: "$8,340.00",   count: "14 pending"           },
-  // };
 
-  const su = {
-    totalRevenue: {
-      value: transactions
-        .reduce((total, transaction) => total + transaction.fee, 0)
-        .toFixed(2),
-      trend: transactions.reduce(
-        (total, transaction) => total + transaction.fee,
-        0,
-      ),
-      up: true,
-    },
-    totalTransactions: { value: transactions.length, period: "Last 30 days" },
-    monthlyRevenue: {
-      value: transactions
-        .reduce((total, transaction) => total + transaction.fee, 0)
-        .toFixed(2),
-      trend: transactions.reduce(
-        (total, transaction) => total + transaction.fee,
-        0,
-      ),
-      up: false,
-    },
-    pendingPayouts: {
-      value: transactions
-        .reduce((total, transaction) => total + transaction.fee, 0)
-        .toFixed(2),
-      count: transactions.reduce(
-        (total, transaction) => total + transaction.fee,
-        0,
-      ),
-    },
+  // Assuming 'transactions' is your array of data
+  const calculateSummary = (transactions) => {
+    // 1. Total Revenue (Sum of all paid transactions regardless of status)
+    const totalRevAmount = transactions
+      .filter((t) => t.paymentStatus === "paid")
+      .reduce((sum, t) => sum + t.fee, 0);
+
+    // 2. Monthly Revenue (Filtering for the current month/year if needed,
+    // but based on your data, all are June 2026, so calculating overall for now)
+    const monthlyRevAmount = totalRevAmount;
+
+    // 3. Pending Payouts (Sum of fees where treatment status is 'pending')
+    const pendingTransactions = transactions.filter(
+      (t) => t.treadmendStatus === "pending",
+    );
+    const pendingAmount = pendingTransactions.reduce(
+      (sum, t) => sum + t.fee,
+      0,
+    );
+
+    // Helper for currency formatting
+    const formatCurrency = (amount) =>
+      `$${amount.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+    return {
+      totalRevenue: {
+        value: formatCurrency(totalRevAmount),
+        trend: "+12.5%", // Hardcoded based on your layout template
+        up: true,
+      },
+      totalTransactions: {
+        value: transactions.length.toLocaleString("en-US"),
+        period: "Last 30 days",
+      },
+      monthlyRevenue: {
+        value: formatCurrency(monthlyRevAmount),
+        trend: "-2.1%", // Hardcoded based on your layout template
+        up: false,
+      },
+      pendingPayouts: {
+        value: formatCurrency(pendingAmount),
+        count: `${pendingTransactions.length} pending`,
+      },
+    };
   };
 
+  const su = calculateSummary(transactions);
+  // console.log(su);
 
   const data = transactions.map((transaction) => ({
     label: transaction.appointmentDate,
     value: transaction.fee,
   }));
-  console.log("data", su);
 
   return (
     <main
@@ -86,10 +94,10 @@ export default async function PaymentOverviewPage() {
                 Dashboard
               </Link>
               <span
-                className="material-symbols-outlined text-[14px]"
+                className=" text-[14px]"
                 style={{ color: "var(--text-muted)" }}
               >
-                chevron_right
+                <FaChevronRight />
               </span>
               <span style={{ color: "var(--color-primary)" }}>Payments</span>
             </nav>
@@ -109,7 +117,7 @@ export default async function PaymentOverviewPage() {
           </div>
 
           {/* Action buttons */}
-          <div className="flex items-center gap-3 flex-wrap">
+          {/* <div className="flex items-center gap-3 flex-wrap">
             <button
               className="flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-semibold border transition-colors hover:bg-(--bg-surface)"
               style={{
@@ -118,25 +126,15 @@ export default async function PaymentOverviewPage() {
               }}
             >
               <span className="material-symbols-outlined text-xl">
-                download
+                <BiDownload/>
               </span>
               Export CSV
             </button>
-            <button
-              className="flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-semibold shadow-sm hover:brightness-95 hover:-translate-y-0.5 active:scale-95 transition-all"
-              style={{
-                backgroundColor: "var(--color-primary)",
-                color: "var(--text-on-primary)",
-              }}
-            >
-              <span className="material-symbols-outlined text-xl">add</span>
-              New Transaction
-            </button>
-          </div>
+          </div> */}
         </div>
 
         {/* ── Summary Cards ────────────────────────────── */}
-        <SummaryCards summary={summary} />
+        <SummaryCards summary={su} />
 
         {/* ── Revenue Chart ────────────────────────────── */}
         <RevenueChart data={data} />

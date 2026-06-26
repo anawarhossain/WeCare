@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { UserAvatar } from "./UserAvatar";
-import { doctorMenuItems, patientMenuItems } from "../common/menuItems";
+import { adminMenuItems, doctorMenuItems, patientMenuItems } from "../common/menuItems";
 
 function ChevronIcon({ open }) {
   return (
@@ -58,7 +58,15 @@ export function UserDropdown({ user }) {
   const [loggingOut, setLoggingOut] = useState(false);
   const dropdownRef = useRef(null);
   const role = user?.role;
-  const menuItems = role === "doctor" ? doctorMenuItems : patientMenuItems;
+  // const menuItems = role === "doctor" ? doctorMenuItems : patientMenuItems;
+
+  function getNavItems(role) {
+    if (role === "doctor") return doctorMenuItems;
+    if (role === "admin") return adminMenuItems;
+    return patientMenuItems;
+  }
+
+  const menuItems = getNavItems(role);
 
   useEffect(() => {
     function handleClickOutside(e) {
