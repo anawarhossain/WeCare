@@ -48,8 +48,8 @@ export const doctorMenuItems = [
     icon: <SlCalender />,
   },
   {
-    label: "Applicationt Requests",
-    href: "/dashboard/doctor/applications",
+    label: "Appointment Requests",
+    href: "/dashboard/doctor/appointment",
     icon: <MdOutlinePendingActions />,
   },
   {
