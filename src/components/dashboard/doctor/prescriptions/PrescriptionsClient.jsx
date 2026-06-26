@@ -5,7 +5,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import PrescriptionCard from "./PrescriptionCard";
 import EditPrescriptionModal from "./EditPrescriptionModal";
 import EmptyState from "./EmptyState";
-import ToastNotification from "@/components/dashboard/doctor/appointment-requests/ToastNotification";
+import ToastNotification from "@/components/common/ToastNotification";
 import { updatePrescription } from "@/lib/actions/prescriptions";
 import { isRedirectError } from "@/lib/core/server";
 

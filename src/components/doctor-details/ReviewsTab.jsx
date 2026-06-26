@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import { FaStar } from "react-icons/fa";
-import ToastNotification from "@/components/dashboard/doctor/appointment-requests/ToastNotification";
+import ToastNotification from "@/components/common/ToastNotification";
 import { isRedirectError } from "@/lib/core/server";
 import WriteReviewModal from "./WriteReviewModal";
 import { createReview } from "@/lib/actions/reviews";

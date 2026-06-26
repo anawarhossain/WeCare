@@ -11,4 +11,8 @@ export async function getAppointments(doctorId) {
 }
 
 
+export async function getPatientAppointments(patientId) {
+  if (!patientId) return [];
+  return await serverGet(`api/appointments/patient/${patientId}`);
+}
 

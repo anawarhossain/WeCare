@@ -1,28 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import StatusBadge from "./StatusBadge";
+import StatusBadge from "../../../common/StatusBadge";
 import { IoTodayOutline } from "react-icons/io5";
 import { MdOutlineBlock, MdSchedule } from "react-icons/md";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { ImCancelCircle } from "react-icons/im";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
-export default function AppointmentCard({ appointment, onAccept, onReject, onComplete }) {
+export default function AppointmentCard({
+  appointment,
+  onAccept,
+  onReject,
+  onComplete,
+}) {
   const {
     _id,
     patientName,
     patientImage: patientAvatar,
-    appointmentDate:date,
+    appointmentDate: date,
     time,
     notes,
     treadmendStatus: status,
   } = appointment;
 
-  
-  const isPending   = status === "pending";
-  const isAccepted  = status === "accepted";
-  const isDimmed    = status === "completed" || status === "rejected";
+  const isPending = status === "pending";
+  const isAccepted = status === "accepted";
+  const isDimmed = status === "completed" || status === "rejected";
 
   return (
     <div

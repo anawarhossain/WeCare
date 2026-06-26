@@ -4,7 +4,7 @@ import { useState, useCallback } from "react";
 import TabNav from "./TabNav";
 import AppointmentCard from "./AppointmentCard";
 import EmptyState from "./EmptyState";
-import ToastNotification from "./ToastNotification";
+import ToastNotification from "../../../common/ToastNotification";
 import PrescriptionModal from "./PrescriptionModal";
 import { IoMdAdd } from "react-icons/io";
 import { updateAppointmentStatus } from "@/lib/actions/appointments";
