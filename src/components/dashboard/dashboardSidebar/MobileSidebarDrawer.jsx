@@ -86,7 +86,7 @@ export function MobileSidebarDrawer({ user }) {
             </Drawer.Header>
 
             {/* Nav Items */}
-            <Drawer.Body className="flex-1 py-4 overflow-y-auto custom-scrollbar px-0">
+            <Drawer.Body className="flex-1  py-4 overflow-y-auto custom-scrollbar px-0">
               <nav aria-label="Dashboard navigation">
                 <ul className="flex flex-col gap-1 px-3">
                   {navItems.map((item) => {
