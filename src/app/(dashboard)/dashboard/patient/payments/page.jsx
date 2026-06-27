@@ -17,8 +17,10 @@ export default async function PaymentHistoryPage() {
   if (!user) {
     redirect("/sign-in");
   }
+  const userId = user?.id;
 
-  const { summary, transactions } = await getPaymentHistory(user.id);
+  const { summary, transactions } = await getPaymentHistory(userId);
+  console.log("payment history", summary, transactions);
 
   return (
     <main

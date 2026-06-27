@@ -107,7 +107,7 @@ export default function DoctorDetailsClient({ doctor, id, reviews, currentUser }
               onSlotSelect={setSelectedSlot}
             />
           )}
-          {activeTab === "reviews" && <ReviewsTab doctorId={id} reviews={reviews} currentUser={currentUser} />}
+          {activeTab === "reviews" && <ReviewsTab doctor={doctor} doctorId={id} reviews={reviews} currentUser={currentUser} />}
         </div>
 
         {/* Right: Sticky Sidebar */}

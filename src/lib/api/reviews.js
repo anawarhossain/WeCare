@@ -6,3 +6,8 @@ export async function getReviews(doctorId) {
 
   return await serverGet(`api/reviews/${doctorId}`);
 }
+
+
+export const getReviewById = async (userId) => {
+  return await serverGet(`api/reviews/user/${userId}`);
+}

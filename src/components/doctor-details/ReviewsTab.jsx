@@ -41,11 +41,15 @@ const formatDate = (value) => {
 export default function ReviewsTab({
   reviews: initialReviews,
   doctorId,
+  doctor,
   currentUser,
 }) {
   const [reviews, setReviews] = useState(initialReviews || []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
+
+  const doctorName = doctor.name;
+  const doctorImage = doctor.image;
 
   // ── Average rating + total count ───────────────────────────────
   const { average, total } = useMemo(() => {
@@ -71,6 +75,8 @@ export default function ReviewsTab({
     try {
       const payload = {
         doctorId,
+        doctorName: doctorName,
+        doctorImage: doctorImage,
         patientId: currentUser.id,
         patientName: currentUser.name,
         patientImage: currentUser.image,

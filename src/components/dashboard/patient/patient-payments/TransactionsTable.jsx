@@ -75,7 +75,20 @@ export default function TransactionsTable({
                 </td>
                 <td className="px-6 py-4">
                   <div className="flex items-center gap-3">
-                    <Avatar src={t.doctorImage} name={t.doctorName} size="sm" />
+                    
+                    <Avatar>
+                      <Avatar.Image
+                        alt={t?.doctorName}
+                        src={t?.doctorImage}
+                        name={t.doctorName}
+                      />
+                      <Avatar.Fallback>
+                        {t?.doctorName
+                          ?.split(" ")
+                          .map((n) => n[0])
+                          .join("")}
+                      </Avatar.Fallback>
+                    </Avatar>
                     <div>
                       <p
                         className="font-semibold text-sm"
