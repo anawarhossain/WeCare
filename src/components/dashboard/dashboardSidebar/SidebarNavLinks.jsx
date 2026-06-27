@@ -54,7 +54,7 @@ export function SidebarNavLinks({ role }) {
                 onMouseLeave={(e) => {
                   if (!isActive) {
                     e.currentTarget.style.backgroundColor = "transparent";
-                    e.currentTarget.style.color = "var(--text-secondary)";
+                    e.currentTarget.style.color = "#ffffff";
                   }
                 }}
               >
