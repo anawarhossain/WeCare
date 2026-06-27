@@ -71,12 +71,12 @@ export default function ProfileCard({ user }) {
             </h2>
 
             {/* স্ট্যাটাস ব্যাজ */}
-            <span
+            {/* <span
               className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold border capitalize ${currentStatusStyle}`}
             >
               <span className="w-1.5 h-1.5 rounded-full bg-currentColor animate-pulse" />
               {status}
-            </span>
+            </span> */}
           </div>
 
           {/* রোল / ডেজিগনেশন */}
