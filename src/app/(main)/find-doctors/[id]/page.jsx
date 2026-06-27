@@ -1,7 +1,7 @@
 // app/doctors/[id]/page.jsx
 // Server Component — data fetched server-side
 
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import DoctorDetailsClient from "@/components/doctor-details/DoctorDetailsClient";
 import { getDoctorById } from "@/lib/api/doctors";
 import { getReviews } from "@/lib/api/reviews";
@@ -27,7 +27,7 @@ export default async function DoctorDetailsPage({ params }) {
   const reviews = await getReviews(id);
   const user = await getUserSession();
   if (!user) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
   // console.log("doctor data form server", doctor.slots);
 

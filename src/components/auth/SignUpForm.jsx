@@ -16,6 +16,7 @@ import {
   Select,
   ListBox,
 } from "@heroui/react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -211,6 +212,21 @@ export function SignUpForm() {
             Reset
           </Button>
         </div>
+
+        {/* Footer Link */}
+        <p
+          className="text-center text-sm mt-2"
+          style={{ color: "var(--text-secondary)" }}
+        >
+          Already have an account?{" "}
+          <Link
+            href="/signin"
+            className="font-medium hover:underline"
+            style={{ color: "var(--color-primary)" }}
+          >
+            Login
+          </Link>
+        </p>
       </Form>
     </div>
   );

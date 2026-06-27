@@ -5,7 +5,7 @@ const Page = async () => {
   const user = await getUserSession();
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
 
   switch (user.role) {
