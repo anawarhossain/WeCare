@@ -10,3 +10,15 @@ export const createReview = async (reviewData) => {
 
   return res;
 };
+
+export const updateReviewById = async (id, data) => {
+  const res = await serverMutation(`api/reviews/${id}`, data, "PUT");
+  revalidatePath("/dashboard/patient/reviews", "page");
+  return res;
+};
+
+export const deleteReviewById = async (id) => {
+  const res = await serverMutation(`api/reviews/${id}`, {}, "DELETE");
+  revalidatePath("/dashboard/patient/reviews", "page");
+  return res;
+};

@@ -21,7 +21,7 @@ export default async function MyAppointmentsPage() {
   //   console.log("user", user, userId);
 
   const appointments = await getPatientAppointments(userId);
-  //   console.log("appointments", appointments);
+    // console.log("appointments", appointments);
 
   return (
     <main

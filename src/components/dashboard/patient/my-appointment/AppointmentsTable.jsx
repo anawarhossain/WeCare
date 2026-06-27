@@ -80,11 +80,20 @@ export default function AppointmentsTable({ appointments, onCancel }) {
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      <Avatar
-                        src={appt.doctorImage}
-                        name={appt.doctorName}
-                        size="sm"
-                      />
+                      
+                      <Avatar>
+                        <Avatar.Image
+                          alt={appt?.doctorName}
+                          src={appt?.doctorImage}
+                          name={appt?.doctorName}
+                        />
+                        <Avatar.Fallback>
+                          {appt?.doctorName
+                            ?.split(" ")
+                            .map((n) => n[0])
+                            .join("")}
+                        </Avatar.Fallback>
+                      </Avatar>
                       <div>
                         <p
                           className="font-semibold text-sm"

@@ -1,6 +1,9 @@
+
 import ReviewCard from "@/components/dashboard/patient/reviews/ReviewCard";
+import ReviewHandle from "@/components/dashboard/patient/reviews/ReviewHandle";
 import { getReviewById } from "@/lib/api/reviews";
 import { getUserSession } from "@/lib/core/session";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import React from "react";
 import { BiPlus } from "react-icons/bi";
@@ -34,25 +37,17 @@ const MyReviewsPage = async () => {
             </p>
           </div>
           <div>
-            <button className="inline-flex items-center gap-2 bg-cyan-700 hover:bg-cyan-800 text-white font-medium px-5 py-2.5 rounded-xl shadow-sm transition-colors duration-200">
+            <Link href="/find-doctors" className="inline-flex items-center gap-2 bg-cyan-700 hover:bg-cyan-800 text-white font-medium px-5 py-2.5 rounded-xl shadow-sm transition-colors duration-200">
               <BiPlus size={18} />
               <span>Add Review</span>
-            </button>
+            </Link>
           </div>
         </div>
 
         {/* Reviews Listing Grid */}
         <div className="space-y-6">
           {reviewList.length > 0 ? (
-            reviewList.map((review) => (
-              <ReviewCard
-                key={review._id}
-                review={review}
-                // Wire up client action triggers as needed later
-                // onEdit={() => console.log("Edit clicked", review._id)}
-                // onDelete={() => console.log("Delete clicked", review._id)}
-              />
-            ))
+            <ReviewHandle reviewList={reviewList} />
           ) : (
             <div className="text-center py-12 bg-white border border-slate-200 rounded-2xl">
               <p className="text-slate-500">

@@ -2,15 +2,12 @@ import { Calendar, Star } from "@gravity-ui/icons";
 import { Avatar } from "@heroui/react";
 import React from "react";
 import { BsTrash2 } from "react-icons/bs";
+import { FaStar } from "react-icons/fa";
 import { FiEdit2 } from "react-icons/fi";
 
 const ReviewCard = ({ review, onEdit, onDelete }) => {
   const { rating, reviewText, createdAt, doctorName, doctorImage } = review;
     
-    // console.log(doctorName, doctorImage, review);
-    // console.log("review", review?.doctorImage, review?.doctorName);
-
-  // Format MongoDB ISO date string into a readable format (e.g., Oct 12, 2023)
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString("en-US", {
       month: "short",
@@ -47,7 +44,7 @@ const ReviewCard = ({ review, onEdit, onDelete }) => {
         {/* Star Rating */}
         <div className="flex items-center gap-0.5">
           {[...Array(5)].map((_, index) => (
-            <Star
+            <FaStar
               key={index}
               size={20}
               className={`${
