@@ -99,7 +99,7 @@ export default function AddScheduleModal({
     const updatedSchedule = { ...currentSchedule };
 
     selectedDays.forEach((abbr) => {
-      const fullDay = DAYS_FULL.find((d) => d.startsWith(abbr));
+      const fullDay = DAYS_FULL.find((d) => d?.startsWith(abbr));
       if (fullDay) {
         const existingIds = new Set(
           (currentSchedule[fullDay] || []).map((s) => s.id),

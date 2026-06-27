@@ -58,5 +58,5 @@ const handleStatusCode = async (res) => {
  * }
  */
 export const isRedirectError = (error) => {
-  return typeof error?.digest === "string" && error.digest.startsWith("NEXT_REDIRECT");
+  return typeof error?.digest === "string" && error.digest?.startsWith("NEXT_REDIRECT");
 };

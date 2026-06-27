@@ -95,7 +95,7 @@ export function MobileSidebarDrawer({ user }) {
                       `/${pathname.split("/").slice(1, 3).join("/")}`;
                     const isActive = isDashboard
                       ? pathname === item.href
-                      : pathname.startsWith(item.href);
+                      : pathname?.startsWith(item.href);
 
                     return (
                       <li key={item.href}>

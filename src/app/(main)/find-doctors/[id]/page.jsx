@@ -26,6 +26,9 @@ export default async function DoctorDetailsPage({ params }) {
   
   const reviews = await getReviews(id);
   const user = await getUserSession();
+  if (!user) {
+    redirect("/sign-in");
+  }
   // console.log("doctor data form server", doctor.slots);
 
   if (!doctor) notFound();
