@@ -30,7 +30,7 @@ export default async function DashboardSidebar() {
 
       {/* ── Desktop: Static Sidebar (hidden on small screens) ── */}
       <aside
-        className="hidden lg:flex w-64 shrink-0 min-h-screen border-r flex-col transition-colors duration-200"
+        className="hidden lg:flex w-64 shrink-0 min-h-screen border-r flex-col transition-colors duration-200 text-black"
         style={{
           backgroundColor: "var(--sidebar-bg)",
           borderColor: "var(--border-default)",
@@ -51,7 +51,7 @@ export default async function DashboardSidebar() {
             <div className="flex flex-col min-w-0">
               <span
                 className="text-sm font-semibold truncate leading-tight mb-1"
-                style={{ color: "var(--text-primary)" }}
+                style={{ color: "#ffffff" }}
               >
                 {user?.name ?? "User"}
               </span>

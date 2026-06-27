@@ -39,9 +39,7 @@ export function SidebarNavLinks({ role }) {
                   backgroundColor: isActive
                     ? "var(--color-primary-light)"
                     : "transparent",
-                  color: isActive
-                    ? "var(--color-primary)"
-                    : "var(--text-secondary)",
+                  color: isActive ? "var(--color-primary)" : "#ffffff",
                   border: isActive
                     ? "1px solid var(--color-primary)"
                     : "1px solid transparent",

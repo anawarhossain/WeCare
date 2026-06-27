@@ -83,7 +83,7 @@ export const adminMenuItems = [
     icon: <RiUserHeartLine />,
   },
   {
-    label: "All Appointments",
+    label: "Appointments Overview",
     href: "/dashboard/admin/appointments",
     icon: <SlCalender />,
   },
