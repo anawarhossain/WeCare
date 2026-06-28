@@ -1,6 +1,6 @@
 // lib/api/admin-appointments.js
-import { serverGet } from "../core/server";
+import { serverGet, serverProtectGet } from "../core/server";
 
 export async function getAdminAppointmentsOverview() {
-  return await serverGet("api/admin/appointments/overview");
+  return await serverProtectGet("api/admin/appointments/overview");
 }

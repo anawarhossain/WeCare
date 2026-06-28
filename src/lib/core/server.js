@@ -1,18 +1,44 @@
+"use server";
 import { redirect } from "next/navigation";
-
+import { headers } from "next/headers";
+import { auth } from "../auth";
 
 // ক্লায়েন্ট এবং সার্ভার উভয় সাইডের সাপোর্ট নিশ্চিত করা
-const BASE_URL = process.env.NEXT_PUBLIC_SERVER_API_URL || process.env.SERVER_API_URL;
+const BASE_URL =
+  process.env.NEXT_PUBLIC_SERVER_API_URL || process.env.SERVER_API_URL;
+
+// কমন হেডার জেনারেট করার হেল্পার ফাংশন
+const getHeaders = async () => {
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+  console.log("token", token);
+
+  return {
+    authorization: `Bearer ${token}`,
+  };
+};
+
 
 export const serverGet = async (path) => {
   const res = await fetch(`${BASE_URL}/${path}`, { cache: "no-store" });
   return handleStatusCode(res);
 };
 
+
+export const serverProtectGet = async (path) => {
+  const headers = await getHeaders();
+  const res = await fetch(`${BASE_URL}/${path}`, { headers });
+  return handleStatusCode(res);
+};
+
+
+
 export const serverMutation = async (path, data, method = "POST") => {
   const res = await fetch(`${BASE_URL}/${path}`, {
     method: method,
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", ...await getHeaders() },
     body: JSON.stringify(data),
   });
 
@@ -40,7 +66,6 @@ const handleStatusCode = async (res) => {
   return res.json();
 };
 
-
 /**
  * IMPORTANT: redirect() থ্রো করে একটা special error (digest: "NEXT_REDIRECT")
  * যেটা Next.js framework নিজে ধরে navigation করে। কিন্তু client component-এ
@@ -57,6 +82,9 @@ const handleStatusCode = async (res) => {
  *   console.error(error);
  * }
  */
-export const isRedirectError = (error) => {
-  return typeof error?.digest === "string" && error.digest?.startsWith("NEXT_REDIRECT");
+export const isRedirectError = async (error) => {
+  return (
+    typeof error?.digest === "string" &&
+    error.digest?.startsWith("NEXT_REDIRECT")
+  );
 };

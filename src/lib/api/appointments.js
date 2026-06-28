@@ -1,7 +1,7 @@
 // lib/appointments.js
 // Replace with your real DB / API calls
 
-import { serverGet } from "../core/server";
+import { serverGet, serverProtectGet } from "../core/server";
 
 
 export async function getAppointments(doctorId) {
@@ -13,6 +13,6 @@ export async function getAppointments(doctorId) {
 
 export async function getPatientAppointments(patientId) {
   if (!patientId) return [];
-  return await serverGet(`api/appointments/patient/${patientId}`);
+  return await serverProtectGet(`api/appointments/patient/${patientId}`);
 }
 
