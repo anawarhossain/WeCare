@@ -11,6 +11,7 @@ import {
   adminMenuItems,
 } from "@/components/common/menuItems";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 function getNavItems(role) {
   if (role === "doctor") return doctorMenuItems;
@@ -66,7 +67,7 @@ export function MobileSidebarDrawer({ user }) {
               className="px-5 py-5 border-b shrink-0"
               style={{ borderColor: "var(--border-default)" }}
             >
-              <div className="flex items-center gap-3 w-full">
+              <Link href="/" className="flex items-center gap-3 w-full">
                 <UserAvatar
                   name={user?.name ?? ""}
                   image={user?.image ?? null}
@@ -82,7 +83,7 @@ export function MobileSidebarDrawer({ user }) {
                   </span>
                   <RoleBadge role={user?.role} />
                 </div>
-              </div>
+              </Link>
             </Drawer.Header>
 
             {/* Nav Items */}

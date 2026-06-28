@@ -37,8 +37,10 @@ export default async function DashboardSidebar() {
         }}
       >
         {/* ── User info block ── */}
-        <div
-          className="px-5 py-5 border-b shrink-0"
+        
+        <Link 
+          href="/"
+          className="px-5 py-5 border-b shrink-0 block"
           style={{ borderColor: "var(--border-default)" }}
         >
           <div className="flex items-center gap-3">
@@ -58,7 +60,7 @@ export default async function DashboardSidebar() {
               <RoleBadge role={user?.role} />
             </div>
           </div>
-        </div>
+        </Link>
 
         {/* ── Nav links — client for active state ── */}
         <div className="flex-1 py-4 overflow-y-auto custom-scrollbar">

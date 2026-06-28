@@ -3,7 +3,8 @@ import { UserDropdown } from "./UserDropdown";
 
 function AuthenticatedButtons({ user }) {
   const role = user?.user?.role ?? user?.role;
-  const dashboardHref = `/dashboard/${role === "doctor" ? "doctor" : "patient"}`;
+  const dashboardHref = `/dashboard/${
+    role === "doctor" ? "doctor" : role === "admin" ? "admin" : "patient"}`;
 
   return (
     <>
