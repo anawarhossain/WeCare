@@ -3,11 +3,19 @@ import { redirect } from "next/navigation";
 import { auth } from "../auth";
 
 export const getUserSession = async () => {
-  const session = await auth.api.getSession({
+  try {
+    const session = await auth.api.getSession({
     headers: await headers(), // some endpoints might require headers
-  });
+    });
+    return session?.user || null;
+  }
+  catch (error) {
+    console.error(error);
+    return null;
+  }
+  
 
-  return session?.user || null;
+  
 };
 
 export const requireRole = async (role) => {

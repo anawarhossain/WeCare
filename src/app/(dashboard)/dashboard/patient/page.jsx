@@ -4,8 +4,10 @@
 
 
 import StatCard from "@/components/dashboard/admin/overView/StatCard";
+import FavoriteDoctorsList from "@/components/dashboard/patient/dashboard/favoriteDoctors";
 import UpcomingAppointmentsTable from "@/components/dashboard/patient/dashboard/UpcomingAppointmentsTable";
 import VisitHistoryChart from "@/components/dashboard/patient/dashboard/VisitHistoryChart";
+import { getFavoriteDoctors } from "@/lib/api/favorites";
 import { getPatientDashboardOverview } from "@/lib/api/patient-dashboard";
 import { getUserSession } from "@/lib/core/session";
 import { redirect } from "next/navigation";
@@ -23,6 +25,10 @@ export const metadata = {
 
 export default async function PatientDashboardPage() {
   const user = await getUserSession();
+  const userId = user?.id;
+  console.log("user", user, userId);
+  const favoriteDoctors = await getFavoriteDoctors(userId);
+  console.log("favoriteDoctors", favoriteDoctors);
 
   if (!user) {
     redirect("/sign-in");
@@ -102,6 +108,12 @@ export default async function PatientDashboardPage() {
           </div>
           <div className="lg:col-span-1">
             <VisitHistoryChart data={visitHistory} />
+          </div>
+
+          <div className="lg:col-span-1">
+            {favoriteDoctors.length > 0 && (
+              <FavoriteDoctorsList favoriteDoctors={favoriteDoctors} />
+            )}
           </div>
         </div>
       </div>
