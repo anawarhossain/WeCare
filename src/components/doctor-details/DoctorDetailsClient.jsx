@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import DoctorHero from "./DoctorHero";
 import AboutTab from "./AboutTab";
 import BookingTab from "./BookingTab";
@@ -8,6 +8,8 @@ import ReviewsTab from "./ReviewsTab";
 import BookingSidebar from "./BookingSidebar";
 import BookingModal from "./BookingModal";
 import { createCheckoutSession } from "@/app/actions/stripe";
+import { checkFavoriteStatus } from "@/lib/api/favorites";
+import { toggleFavoriteDoctor } from "@/lib/actions/favorites";
 
 const TABS = [
   { id: "about", label: "About" },
@@ -15,15 +17,34 @@ const TABS = [
   { id: "reviews", label: "Reviews" },
 ];
 
-export default function DoctorDetailsClient({ doctor, id, reviews, currentUser }) {
+export default function DoctorDetailsClient({
+  doctor,
+  id,
+  reviews,
+  currentUser,
+}) {
   const [activeTab, setActiveTab] = useState("about");
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
   const tabSectionRef = useRef(null);
   const [notes, setNotes] = useState("");
 
   const switchTab = (tabId) => setActiveTab(tabId);
+
+  // পেজ লোড হলে ফেভারিট স্ট্যাটাস চেক করার এফেক্ট
+  useEffect(() => {
+    const fetchFavoriteStatus = async () => {
+      // ইউজার লগইন করা থাকলে এবং ডাক্তারের আইডি থাকলে চেক করবে
+      const userId = currentUser?.id || currentUser?._id;
+      if (userId && doctor?.id) {
+        const res = await checkFavoriteStatus(userId, doctor.id);
+        setIsFavorite(res?.isFavorite || false);
+      }
+    };
+    fetchFavoriteStatus();
+  }, [currentUser, doctor?.id]);
 
   const handleBookClick = () => {
     switchTab("booking");
@@ -33,6 +54,35 @@ export default function DoctorDetailsClient({ doctor, id, reviews, currentUser }
         block: "start",
       });
     }, 50);
+  };
+
+  // ফেভারিট হ্যান্ডলার ফাংশনটি কমপ্লিট করা হলো
+  const handleFavoriteDoctor = async () => {
+    const userId = currentUser?.id || currentUser?._id;
+
+    if (!userId) {
+      alert("Please sign in to add this doctor to your favorites.");
+      return;
+    }
+
+    try {
+      // অপটিমিস্টিক আপডেট (ইউজার ইন্টারফেস দ্রুত রেসপন্স করার জন্য আগেভাগেই স্টেট চেঞ্জ করা)
+      setIsFavorite((prev) => !prev);
+
+      const res = await toggleFavoriteDoctor(userId, doctor.id, {
+        name: doctor.name,
+        image: doctor.image,
+        specialization: doctor.specialization,
+      });
+
+      // সার্ভারের আসল রেসপন্স দিয়ে স্টেটটি নিশ্চিত করা
+      setIsFavorite(res.isFavorite);
+    } catch (error) {
+      console.error("Failed to toggle favorite:", error);
+      // এরর হলে আগের স্টেটে ফেরত যাওয়া
+      setIsFavorite((prev) => !prev);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   const handleConfirmBooking = async () => {
@@ -67,7 +117,12 @@ export default function DoctorDetailsClient({ doctor, id, reviews, currentUser }
 
   return (
     <>
-      <DoctorHero doctor={doctor} onBookClick={handleBookClick} />
+      <DoctorHero
+        doctor={doctor}
+        onBookClick={handleBookClick}
+        onFavoriteClick={handleFavoriteDoctor}
+        isFavorite={isFavorite}
+      />
 
       {/* Tabs Nav */}
       <div
@@ -107,7 +162,14 @@ export default function DoctorDetailsClient({ doctor, id, reviews, currentUser }
               onSlotSelect={setSelectedSlot}
             />
           )}
-          {activeTab === "reviews" && <ReviewsTab doctor={doctor} doctorId={id} reviews={reviews} currentUser={currentUser} />}
+          {activeTab === "reviews" && (
+            <ReviewsTab
+              doctor={doctor}
+              doctorId={id}
+              reviews={reviews}
+              currentUser={currentUser}
+            />
+          )}
         </div>
 
         {/* Right: Sticky Sidebar */}

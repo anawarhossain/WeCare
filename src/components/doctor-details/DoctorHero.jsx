@@ -1,12 +1,12 @@
 import Image from "next/image";
 import { BsChatLeftText } from "react-icons/bs";
 import { CiCalendar } from "react-icons/ci";
-import { FaStar } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { MdOutlineWorkHistory, MdVerified } from "react-icons/md";
 import { PiBuildingApartmentDuotone } from "react-icons/pi";
 import { SlGraduation } from "react-icons/sl";
 
-export default function DoctorHero({ doctor, onBookClick }) {
+export default function DoctorHero({ doctor, onBookClick, onFavoriteClick, isFavorite }) {
   const {
     name,
     specialization,
@@ -19,7 +19,6 @@ export default function DoctorHero({ doctor, onBookClick }) {
     image,
     verificationStatus,
   } = doctor;
-
 
   const statusStyle = {
     pending: {
@@ -202,17 +201,27 @@ export default function DoctorHero({ doctor, onBookClick }) {
             </span>
           </button>
           <button
+            onClick={onFavoriteClick}
             className="flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-base border hover:opacity-80 transition-all"
             style={{
-              borderColor: "var(--border-default)",
-              color: "var(--text-primary)",
-              backgroundColor: "transparent",
+              borderColor: isFavorite
+                ? "var(--color-danger)"
+                : "var(--border-default)",
+              color: isFavorite ? "var(--color-danger)" : "var(--text-primary)",
+              backgroundColor: isFavorite
+                ? "var(--color-danger-bg)"
+                : "transparent",
             }}
           >
-            Message
-            <span className=" text-xl">
-              <BsChatLeftText />
+            <span className="text-xl">
+              {/* কন্ডিশনাল আইকন চেঞ্জ */}
+              {isFavorite ? (
+                <FaHeart className="text-rose-600 animate-pulse" />
+              ) : (
+                <FaRegHeart />
+              )}
             </span>
+            {isFavorite ? "Favorited" : "Favorite"}
           </button>
         </div>
       </div>
