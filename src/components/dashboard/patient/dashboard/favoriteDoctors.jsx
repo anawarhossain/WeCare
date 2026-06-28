@@ -9,7 +9,7 @@ import React from "react";
 export default function FavoriteDoctorsList({ favoriteDoctors }) {
   return (
     <div
-      className="max-w-md w-full rounded-[24px] border p-6 md:p-8 transition-all"
+      className=" w-full rounded-[24px] border p-6 md:p-8 transition-all"
       style={{
         backgroundColor: "var(--bg-card, #ffffff)",
         borderColor: "var(--border-default, #e2e8f0)",

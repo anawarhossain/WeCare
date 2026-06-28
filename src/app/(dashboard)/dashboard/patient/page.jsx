@@ -103,14 +103,14 @@ export default async function PatientDashboardPage() {
 
         {/* ── Table + Chart ───────────────────────────────────── */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <UpcomingAppointmentsTable appointments={upcomingAppointments} />
           </div>
           <div className="lg:col-span-1">
             <VisitHistoryChart data={visitHistory} />
           </div>
 
-          <div className="lg:col-span-1">
+          <div className=" lg:col-span-2">
             {favoriteDoctors.length > 0 && (
               <FavoriteDoctorsList favoriteDoctors={favoriteDoctors} />
             )}
