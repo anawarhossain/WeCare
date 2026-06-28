@@ -5,6 +5,7 @@ import AppointmentRequestsClient from "@/components/dashboard/doctor/appointment
 import { getAppointments } from "@/lib/api/appointments";
 import { getDoctor } from "@/lib/api/doctors";
 import { getUserSession } from "@/lib/core/session";
+import { redirect } from "next/navigation";
 
 export const metadata = {
   title: "Appointment Requests | WeCare",
@@ -15,7 +16,7 @@ export const metadata = {
 export default async function AppointmentRequestsPage() {
   const user = await getUserSession();
   if (!user) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
   const userId = user?.id;
   const doctor = await getDoctor(userId);

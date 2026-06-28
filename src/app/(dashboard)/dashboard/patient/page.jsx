@@ -31,7 +31,7 @@ export default async function PatientDashboardPage() {
   console.log("favoriteDoctors", favoriteDoctors);
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
 
   const { stats, upcomingAppointments, visitHistory } =

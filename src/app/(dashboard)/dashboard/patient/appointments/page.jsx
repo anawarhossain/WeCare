@@ -15,7 +15,7 @@ export default async function MyAppointmentsPage() {
   const user = await getUserSession();
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
   const userId = user?.id;
   //   console.log("user", user, userId);

@@ -22,7 +22,7 @@ export const serverMutation = async (path, data, method = "POST") => {
 // handle 401, 404, 403
 const handleStatusCode = async (res) => {
   if (res.status === 401) {
-    redirect("/sign-in");
+    redirect("/signin");
   } else if (res.status === 403) {
     redirect("/unauthorized");
   } else if (res.status >= 500) {

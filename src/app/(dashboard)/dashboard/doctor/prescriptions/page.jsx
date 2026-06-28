@@ -16,7 +16,7 @@ export default async function PrescriptionsPage() {
   const user = await getUserSession();
 
   if (!user) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
 
   const doctor = await getDoctor(user.id);

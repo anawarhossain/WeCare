@@ -18,7 +18,7 @@ export const metadata = {
 export default async function DoctorDashboardPage() {
     const user = await getUserSession();
     if (!user) {
-      redirect("/sign-in");
+      redirect("/signin");
     }
     const userId = user?.id;
     const doctor = await getDoctor(userId);
