@@ -248,7 +248,7 @@ export default function SignUpForm() {
         {/* Global error */}
         {globalError && (
           <div
-            className="flex items-center gap-2 px-4 py-3 rounded-[var(--radius-md)] text-sm border"
+            className="flex items-center gap-2 px-4 py-3 rounded-md text-sm border"
             style={{
               backgroundColor: "var(--color-danger-bg)",
               borderColor: "var(--danger-200)",
@@ -310,7 +310,7 @@ export default function SignUpForm() {
                   key={r}
                   type="button"
                   onClick={() => setForm((p) => ({ ...p, role: r }))}
-                  className="h-12 rounded-[var(--radius-md)] border text-sm font-semibold capitalize transition-all hover:brightness-95"
+                  className="h-12 rounded-md border text-sm font-semibold capitalize transition-all hover:brightness-95"
                   style={roleStyle(r)}
                 >
                   {r === "patient" ? "🩺 Patient" : "👨‍⚕️ Doctor"}
@@ -524,7 +524,7 @@ export default function SignUpForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full h-12 flex items-center justify-center gap-2 rounded-[var(--radius-md)] text-sm font-semibold shadow-md hover:brightness-95 hover:-translate-y-0.5 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full h-12 flex items-center justify-center gap-2 rounded-md text-sm font-semibold shadow-md hover:brightness-95 hover:-translate-y-0.5 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
             style={{
               backgroundColor: "var(--color-primary)",
               color: "#ffffff",
@@ -569,7 +569,7 @@ export default function SignUpForm() {
           type="button"
           onClick={handleGoogle}
           disabled={googleLoad}
-          className="w-full h-12 flex items-center justify-center gap-3 rounded-[var(--radius-md)] border text-sm font-semibold transition-all hover:bg-[var(--bg-surface)] hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
+          className="w-full h-12 flex items-center justify-center gap-3 rounded-md border text-sm font-semibold transition-all hover:bg-(--bg-surface) hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:transform-none"
           style={{
             borderColor: "var(--border-default)",
             color: "var(--text-primary)",
@@ -612,7 +612,7 @@ export default function SignUpForm() {
       {/* ── Success Toast ──────────────────────────────────── */}
       {toast && (
         <div
-          className="fixed top-8 right-8 z-[100] flex items-center gap-4 px-6 py-4 rounded-xl shadow-2xl border-l-4 border-[var(--color-success)] max-w-sm"
+          className="fixed top-8 right-8 z-100 flex items-center gap-4 px-6 py-4 rounded-xl shadow-2xl border-l-4 border-(--color-success) max-w-sm"
           style={{
             backgroundColor: "var(--bg-card)",
             borderColor: "var(--color-success)",
