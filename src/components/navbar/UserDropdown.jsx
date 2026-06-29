@@ -4,8 +4,13 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import DoctorCreateModal from "./DoctorCreateModal";
 import { UserAvatar } from "./UserAvatar";
-import { adminMenuItems, doctorMenuItems, patientMenuItems } from "../common/menuItems";
+import {
+  adminMenuItems,
+  doctorMenuItems,
+  patientMenuItems,
+} from "../common/menuItems";
 
 function ChevronIcon({ open }) {
   return (
@@ -48,17 +53,15 @@ function Spinner() {
   );
 }
 
-
-
-
-
-export function UserDropdown({ user }) {
+export function UserDropdown({ user, doctor }) {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
+  const [showDoctorModal, setShowDoctorModal] = useState(false);
   const dropdownRef = useRef(null);
   const role = user?.role;
-  // const menuItems = role === "doctor" ? doctorMenuItems : patientMenuItems;
+  
+  console.log("doctor data form userDropdown", doctor);
 
   function getNavItems(role) {
     if (role === "doctor") return doctorMenuItems;
@@ -152,21 +155,36 @@ export function UserDropdown({ user }) {
           </div>
 
           <div className="py-2 px-2 flex flex-col gap-0.5">
-            {menuItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                role="menuitem"
-                onClick={() => setOpen(false)}
-                className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-150 group hover:bg-zinc-100 dark:hover:bg-zinc-800"
-                style={{ color: "var(--text-secondary)" }}
+            {role === "doctor" &&
+            (!doctor || doctor.message === "Doctor not found") ? (
+              <button
+                onClick={() => {
+                  setOpen(false);
+                  setShowDoctorModal(true);
+                }}
+                className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-xl text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800"
               >
-                <span className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0">
-                {item.icon}
-                </span>
-                {item.label}
-              </Link>
-            ))}
+                Create Professional Profile
+              </button>
+            ) : (
+              <div>
+                {menuItems.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    role="menuitem"
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition-all duration-150 group hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    <span className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0">
+                      {item.icon}
+                    </span>
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
 
           <div
@@ -210,6 +228,12 @@ export function UserDropdown({ user }) {
           </div>
         </div>
       )}
+
+      <DoctorCreateModal
+        open={showDoctorModal}
+        setOpen={setShowDoctorModal}
+        userId={user?.id}
+      />
     </div>
   );
 }

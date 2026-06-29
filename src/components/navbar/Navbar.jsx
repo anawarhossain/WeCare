@@ -9,6 +9,7 @@ import GuestUser from "./GuestButtons";
 import AuthenticatedButtons from "./AuthenticatedButtons";
 import { ThemeToggle } from "../themeChange/ThemeToggle";
 import Link from "next/link";
+import { getDoctor } from "@/lib/api/doctors";
 
 // Multi-tier navigation array entirely computed on the server
 const navItems = [
@@ -32,7 +33,12 @@ const navItems = [
 
 const Navbar = async () => {
   const session = await getUserSession();
-  // console.log("session", session);
+  
+  const userId = session?.id;
+  const doctor = await getDoctor(userId);
+  // console.log("doctor form navbar", doctor);
+
+  
 
   // 1. Build Desktop Links (Injects Server Data into dynamic components)
   const desktopLinks = navItems.map((item, index) => {
@@ -110,7 +116,7 @@ const Navbar = async () => {
       rightContent={
         <div className="flex items-center gap-2">
           {/* <ThemeToggle /> */}
-          {!session ? <GuestUser /> : <AuthenticatedButtons user={session} />}
+          {!session ? <GuestUser /> : <AuthenticatedButtons user={session} doctor={doctor} />}
         </div>
       }
     />

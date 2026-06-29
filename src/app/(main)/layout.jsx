@@ -1,8 +1,11 @@
 
 import Navbar from "@/components/navbar/Navbar";
+import { getUserSession } from "@/lib/core/session";
 
 
-export default function MainLayout({ children }) {
+export default async function MainLayout({ children }) {
+  const user = await getUserSession();
+  
   return (
     <>
       {/* // show navbar in signup and signin page */}

@@ -5,7 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-function AuthenticatedButtons({ user }) {
+function AuthenticatedButtons({ user, doctor }) {
   const [loggingOut, setLoggingOut] = useState(false);
   const router = useRouter();
 
@@ -51,7 +51,7 @@ function AuthenticatedButtons({ user }) {
 
       {/* Desktop only — full dropdown */}
       <div className="hidden md:block">
-        <UserDropdown user={user} />
+        <UserDropdown user={user} doctor={doctor} />
       </div>
     </>
   );
