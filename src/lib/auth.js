@@ -12,6 +12,12 @@ export const auth = betterAuth({
     // Signup-এর পর email verification পাঠাতে চাইলে:
     // requireEmailVerification: true,
   },
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    },
+  },
 
   session: {
     cookieCache: {
@@ -21,9 +27,7 @@ export const auth = betterAuth({
     },
   },
 
-  plugins: [
-    jwt()
-],
+  plugins: [jwt()],
 
   database: mongodbAdapter(db, {
     // Optional: if you don't provide a client, database transactions won't be enabled.
@@ -46,6 +50,24 @@ export const auth = betterAuth({
       status: {
         type: "string",
         default: "pending",
+      },
+    },
+  },
+  // ✅ এটাই সমাধান — user create হওয়ার আগে default inject করো
+  databaseHooks: {
+    user: {
+      create: {
+        before: async (userData) => {
+          return {
+            data: {
+              role: userData.role ?? "patient",
+              phone: userData.phone ?? "",
+              gender: userData.gender ?? "",
+              status: userData.status ?? "pending",
+              ...userData,
+            },
+          };
+        },
       },
     },
   },
