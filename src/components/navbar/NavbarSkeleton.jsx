@@ -26,7 +26,8 @@ export function NavbarSkeleton({
   return (
     <nav
       className={cn(
-        "z-40 w-full border-b border-default-100 bg-background/70 backdrop-blur-lg",
+        "z-40 w-full border-b backdrop-blur-lg transition-colors duration-200",
+        "bg-(--bg-base)/80 border-(--border-default)",
         position === "sticky" && "sticky top-0",
         position === "fixed" && "fixed top-0",
         className,
@@ -34,20 +35,19 @@ export function NavbarSkeleton({
     >
       <header
         className={cn(
-          "flex h-16 items-center justify-between px-6",
+          "flex h-16 items-center justify-between px-4 sm:px-6",
           maxWidth !== "full" && maxWidthClasses[maxWidth],
           "mx-auto",
         )}
       >
         <div className="flex items-center gap-4">
-          {/* Mobile Hamburger Toggle */}
+          {/* মোবাইল হামবার্গার বাটন */}
           <button
-            className="block p-2 text-default-600 hover:text-default-900 md:hidden"
+            className="block p-2 rounded-lg transition-colors md:hidden text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
           >
-            <span className="sr-only">Menu</span>
             <svg
               className="h-6 w-6"
               fill="none"
@@ -72,7 +72,7 @@ export function NavbarSkeleton({
             </svg>
           </button>
 
-          {/* Brand Logo Slot */}
+          {/* ব্র্যান্ড লোগো */}
           {brand}
         </div>
 
@@ -89,11 +89,11 @@ export function NavbarSkeleton({
 
       {/* Mobile Drawer */}
       {isMenuOpen && (
-        <div className="border-t border-default-100 bg-background md:hidden">
-          <ul className="flex flex-col gap-2 p-4">
+        <div className="border-t md:hidden bg-(--bg-base) border-(--border-default) animate-subtle-pulse duration-150">
+          <ul className="flex flex-col gap-2 p-4 max-h-[calc(100vh-4rem)] overflow-y-auto">
             {mobileLinks}
             {rightContent && (
-              <li className="mt-4 flex flex-col gap-2 border-t border-default-100 pt-4">
+              <li className="mt-4 flex flex-col gap-3 border-t pt-4 border-(--border-default)">
                 {rightContent}
               </li>
             )}

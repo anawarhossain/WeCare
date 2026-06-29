@@ -1,6 +1,6 @@
 // "use client";
 import React from "react";
-import { Button, Dropdown, Label, Link } from "@heroui/react";
+import { Button, Dropdown, Label } from "@heroui/react";
 import { NavbarSkeleton } from "./NavbarSkeleton";
 import { MenuLink } from "../common/MenuLink";
 import { DropdownMenuItem } from "../common/DropdownMenuItem";
@@ -8,6 +8,7 @@ import { getUserSession } from "@/lib/core/session";
 import GuestUser from "./GuestButtons";
 import AuthenticatedButtons from "./AuthenticatedButtons";
 import { ThemeToggle } from "../themeChange/ThemeToggle";
+import Link from "next/link";
 
 // Multi-tier navigation array entirely computed on the server
 const navItems = [
@@ -57,10 +58,10 @@ const Navbar = async () => {
     if (item.children) {
       return (
         <li key={index} className="flex flex-col gap-1 py-1">
-          <span className="text-xs font-semibold uppercase tracking-wider text-default-400 px-2">
+          <span className="text-xs font-semibold uppercase tracking-wider text-(--text-muted) px-2">
             {item.label}
           </span>
-          <ul className="pl-4 flex flex-col gap-1 border-l-2 border-default-100 ml-2">
+          <ul className="pl-4 flex flex-col gap-1 border-l-2 border-(--border-default) ml-2">
             {item.children.map((subItem, index) => (
               <li key={index}>
                 <MenuLink
@@ -77,7 +78,7 @@ const Navbar = async () => {
     }
     return (
       <li key={index}>
-        <MenuLink href={item.href} className="block w-full py-2 text-lg">
+        <MenuLink href={item.href} className="block w-full py-2 text-base">
           {item.label}
         </MenuLink>
       </li>

@@ -1,19 +1,21 @@
 "use client";
 
-import { Link } from "@heroui/react";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export function MenuLink({ href, children, className }) {
   const pathname = usePathname();
-  const isActive = pathname === href;
+  const isActive = href === "/" ? pathname === "/" : pathname.startsWith(href);
 
   return (
     <Link
       href={href}
       className={cn(
-        "text-default-600 transition-colors hover:text-primary",
-        isActive && "font-semibold text-primary",
+        "text-sm font-medium transition-colors duration-200",
+        isActive
+          ? "text-(--color-primary) font-semibold"
+          : "text-(--text-secondary) hover:text-(--color-primary)",
         className,
       )}
       aria-current={isActive ? "page" : undefined}
