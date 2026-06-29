@@ -10,7 +10,7 @@ import { updatePrescription } from "@/lib/actions/prescriptions";
 import { isRedirectError } from "@/lib/core/server";
 
 export default function PrescriptionsClient({ initialPrescriptions }) {
-  const [prescriptions, setPrescriptions] = useState(initialPrescriptions);
+  const [prescriptions, setPrescriptions] = useState(initialPrescriptions || []);
   const [search, setSearch] = useState("");
   const [toast, setToast] = useState(null); // { message, subtext, type }
 
@@ -103,10 +103,11 @@ export default function PrescriptionsClient({ initialPrescriptions }) {
       </div>
 
       {/* ── List ─────────────────────────────────────────────── */}
-      {filtered.length === 0 ? (
+      {filtered?.length === 0 ? (
         <EmptyState isSearching={Boolean(search.trim())} />
       ) : (
         <div className="space-y-4">
+          
           {filtered.map((prescription) => (
             <PrescriptionCard
               key={prescription._id}
