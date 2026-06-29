@@ -6,7 +6,7 @@ import { IoEyeOutline } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 import WaitTimeIndicator from "./WaitTimeIndicator";
 
-export default function AppointmentsTable({ appointments, onCancel }) {
+export default function AppointmentsTable({ appointments, onCancel, showPrescription }) {
   if (appointments.length === 0) {
     return (
       <div
@@ -80,7 +80,6 @@ export default function AppointmentsTable({ appointments, onCancel }) {
                 >
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
-                      
                       <Avatar>
                         <Avatar.Image
                           alt={appt?.doctorName}
@@ -133,13 +132,17 @@ export default function AppointmentsTable({ appointments, onCancel }) {
                   </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-1">
-                      <button
+                      {!isCancellable && (
+                        <button
+                        onClick={() => showPrescription(appt._id)}
                         className="p-2 rounded-lg hover:opacity-70 transition-all"
                         style={{ color: "var(--color-primary)" }}
                         title="View Details"
                       >
                         <IoEyeOutline className="text-lg" />
                       </button>
+                      )}
+                      
                       {isCancellable && (
                         <button
                           onClick={() => onCancel(appt._id)}

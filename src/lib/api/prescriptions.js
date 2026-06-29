@@ -6,3 +6,9 @@ export async function getPrescriptions(doctorId) {
 
   return await serverGet(`api/prescriptions/${doctorId}`);
 }
+
+
+
+export const getPrescriptionByAppointmentId = async (appointmentId) => {
+  return await serverGet(`api/prescriptions/${appointmentId}`);
+};

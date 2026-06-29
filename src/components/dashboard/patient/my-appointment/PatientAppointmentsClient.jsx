@@ -8,6 +8,8 @@ import { isRedirectError } from "@/lib/core/server";
 import SegmentedTabs from "./SegmentedTabs";
 import AppointmentsTable from "./AppointmentsTable";
 import ToastNotification from "@/components/common/ToastNotification";
+import { getPrescriptionByAppointmentId } from "@/lib/api/prescriptions";
+import PrescriptionViewModal from "./PrescriptionViewModal";
 
 // "Jun 29, 2026" স্ট্রিং-কে আজকের তারিখের সাথে তুলনা করার হেল্পার
 const isFutureOrToday = (dateStr) => {
@@ -21,6 +23,7 @@ export default function PatientAppointmentsClient({ initialAppointments }) {
   const [appointments, setAppointments] = useState(initialAppointments);
   const [activeTab, setActiveTab] = useState("all");
   const [toast, setToast] = useState(null);
+  const [prescriptionModal, setPrescriptionModal] = useState(null); // { prescription, isLoading }
 
   const filtered = useMemo(() => {
     switch (activeTab) {
@@ -78,6 +81,14 @@ export default function PatientAppointmentsClient({ initialAppointments }) {
     }
   };
 
+  const showPrescription = async (id) => {
+    console.log(id);
+    const prescription = await getPrescriptionByAppointmentId(id);
+    console.log(prescription);
+
+    setPrescriptionModal({ prescription, isLoading: false });
+  };
+
   return (
     <>
       {/* ── Header + Filter Bar ─────────────────────────────── */}
@@ -98,7 +109,20 @@ export default function PatientAppointmentsClient({ initialAppointments }) {
       </div>
 
       {/* ── Table ────────────────────────────────────────────── */}
-      <AppointmentsTable appointments={filtered} onCancel={handleCancel} />
+      <AppointmentsTable
+        appointments={filtered}
+        onCancel={handleCancel}
+        showPrescription={showPrescription}
+      />
+
+      {/* Prescription View Modal */}
+      {prescriptionModal && (
+        <PrescriptionViewModal
+          prescription={prescriptionModal.prescription}
+          isLoading={prescriptionModal.isLoading}
+          onClose={() => setPrescriptionModal(null)}
+        />
+      )}
 
       {/* ── Toast ────────────────────────────────────────────── */}
       {toast && (
