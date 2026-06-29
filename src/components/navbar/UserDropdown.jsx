@@ -164,7 +164,7 @@ export function UserDropdown({ user, doctor }) {
                 }}
                 className="w-full text-left flex items-center gap-3 px-3 py-2 rounded-xl text-sm hover:bg-zinc-100 dark:hover:bg-zinc-800"
               >
-                Create Professional Profile
+                Create Doctor Profile
               </button>
             ) : (
               <div>

@@ -40,7 +40,7 @@ function AuthenticatedButtons({ user, doctor }) {
             href={`/doctor/create-profile?userId=${user?.id}`}
             className="w-full text-center text-sm font-medium py-2 px-4 rounded-xl md:hidden transition-colors bg-(--bg-surface) text-(--text-primary) border border-(--border-default) hover:bg-(--bg-muted)"
           >
-            Go to Dashboard
+            Create Doctor Profile
           </Link>
         ) : (
           <Link
