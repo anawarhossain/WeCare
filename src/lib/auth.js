@@ -7,6 +7,13 @@ const client = new MongoClient(process.env.MONGODB_WE_CARE_CONNECT_URI);
 const db = client.db(process.env.MONGODB_WE_CARE_DB_NAME);
 
 export const auth = betterAuth({
+  account: {
+    accountLinking: {
+      enabled: true,
+      trustedProviders: ["google"],
+    },
+  },
+
   emailAndPassword: {
     enabled: true,
     // Signup-এর পর email verification পাঠাতে চাইলে:
@@ -44,7 +51,7 @@ export const auth = betterAuth({
       },
       phone: {
         type: "string",
-        required: true,
+        required: false,
       },
       gender: {
         type: "string",
