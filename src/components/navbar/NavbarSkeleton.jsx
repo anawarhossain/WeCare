@@ -43,7 +43,7 @@ export function NavbarSkeleton({
         <div className="flex items-center gap-4">
           {/* মোবাইল হামবার্গার বাটন */}
           <button
-            className="block p-2 rounded-lg transition-colors md:hidden text-[var(--text-secondary)] hover:bg-[var(--bg-muted)] hover:text-[var(--text-primary)]"
+            className="block p-2 rounded-lg transition-colors md:hidden text-(--text-secondary) hover:bg-(--bg-muted) hover:text-(--text-primary)"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
