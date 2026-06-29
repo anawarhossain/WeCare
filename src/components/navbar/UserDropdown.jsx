@@ -61,7 +61,7 @@ export function UserDropdown({ user, doctor }) {
   const dropdownRef = useRef(null);
   const role = user?.role;
   
-  console.log("doctor data form userDropdown", doctor);
+  // console.log("doctor data form userDropdown", doctor);
 
   function getNavItems(role) {
     if (role === "doctor") return doctorMenuItems;

@@ -33,10 +33,8 @@ const navItems = [
 
 const Navbar = async () => {
   const session = await getUserSession();
-  
   const userId = session?.id;
   const doctor = await getDoctor(userId);
-  // console.log("doctor form navbar", doctor);
 
   
 
