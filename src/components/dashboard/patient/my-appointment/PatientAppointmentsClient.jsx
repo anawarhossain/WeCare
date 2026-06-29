@@ -82,12 +82,15 @@ export default function PatientAppointmentsClient({ initialAppointments }) {
   };
 
   const showPrescription = async (id) => {
-    console.log(id);
+    // console.log(id);
     const prescription = await getPrescriptionByAppointmentId(id);
-    console.log(prescription);
+    // console.log(prescription);
 
     setPrescriptionModal({ prescription, isLoading: false });
   };
+
+  
+
 
   return (
     <>

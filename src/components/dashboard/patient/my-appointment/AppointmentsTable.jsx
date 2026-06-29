@@ -5,8 +5,11 @@ import { Avatar } from "@heroui/react";
 import { IoEyeOutline } from "react-icons/io5";
 import { MdCancel } from "react-icons/md";
 import WaitTimeIndicator from "./WaitTimeIndicator";
+import Link from "next/link";
 
 export default function AppointmentsTable({ appointments, onCancel, showPrescription }) {
+  console.log("appointments", showPrescription);
+
   if (appointments.length === 0) {
     return (
       <div
@@ -47,7 +50,7 @@ export default function AppointmentsTable({ appointments, onCancel, showPrescrip
                 backgroundColor: "var(--bg-surface)",
               }}
             >
-              {["Doctor", "Date", "Time", "Status", "Wait Time", ""].map(
+              {["Doctor", "Date", "Time", "Status", "Wait Time", "Reshedule", ""].map(
                 (h) => (
                   <th
                     key={h}
@@ -66,6 +69,7 @@ export default function AppointmentsTable({ appointments, onCancel, showPrescrip
                 appt.treadmendStatus === "pending" ||
                 appt.treadmendStatus === "accepted";
               const isDimmed = appt.treadmendStatus === "rejected";
+              console.log("appt", appt.doctorId);
 
               return (
                 <tr
@@ -130,19 +134,27 @@ export default function AppointmentsTable({ appointments, onCancel, showPrescrip
                       estimatedWaitMinutes={appt.estimatedWaitMinutes}
                     />
                   </td>
+                  <td className="">
+                    <Link href={`/find-doctors/${appt.doctorId}`}
+                      className="text-sm font-bold hover:underline"
+                      style={{ color: "var(--color-primary)" }}
+                    >
+                      Reschedule
+                    </Link>
+                  </td>
                   <td className="px-6 py-4 text-right">
                     <div className="flex justify-end gap-1">
                       {!isCancellable && (
                         <button
-                        onClick={() => showPrescription(appt._id)}
-                        className="p-2 rounded-lg hover:opacity-70 transition-all"
-                        style={{ color: "var(--color-primary)" }}
-                        title="View Details"
-                      >
-                        <IoEyeOutline className="text-lg" />
-                      </button>
+                          onClick={() => showPrescription(appt._id)}
+                          className="p-2 rounded-lg hover:opacity-70 transition-all"
+                          style={{ color: "var(--color-primary)" }}
+                          title="View Details"
+                        >
+                          <IoEyeOutline className="text-lg" />
+                        </button>
                       )}
-                      
+
                       {isCancellable && (
                         <button
                           onClick={() => onCancel(appt._id)}
