@@ -1,6 +1,6 @@
 // lib/api/admin-patients.js
-import { serverGet } from "../core/server";
+import { serverGet, serverProtectGet } from "../core/server";
 
 export async function getAdminPatients() {
-  return await serverGet("api/admin/patients");
+  return await serverProtectGet("api/admin/patients");
 }

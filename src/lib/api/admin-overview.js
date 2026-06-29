@@ -1,6 +1,6 @@
 // lib/api/admin-dashboard.js
-import { serverGet } from "../core/server";
+import { serverGet, serverProtectGet } from "../core/server";
 
 export async function getAdminDashboardOverview() {
-  return await serverGet("api/admin/dashboard/overview");
+  return await serverProtectGet("api/admin/dashboard/overview");
 }

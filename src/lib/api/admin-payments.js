@@ -1,6 +1,6 @@
 // lib/api/admin-payments.js
-import { serverGet } from "../core/server";
+import { serverGet, serverProtectGet } from "../core/server";
 
 export async function getAdminPaymentsOverview() {
-  return await serverGet("api/admin/payments/overview");
+  return await serverProtectGet("api/admin/payments/overview");
 }
