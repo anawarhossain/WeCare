@@ -1,5 +1,5 @@
 
-import { serverGet } from "../core/server";
+import { serverGet, serverProtectGet } from "../core/server";
 
 
 // get doctor by id (using doctor profile page)
@@ -14,7 +14,7 @@ export const getDoctors = async () => {
 
 // get get complete doctors by id (using doctor details page)
 export const getDoctorById = async (id) => {
-  return await serverGet(`api/complete-doctors/${id}`);
+  return await serverProtectGet(`api/complete-doctors/${id}`);
 }
 
 
