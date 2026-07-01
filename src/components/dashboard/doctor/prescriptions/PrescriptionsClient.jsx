@@ -13,6 +13,7 @@ export default function PrescriptionsClient({ initialPrescriptions }) {
   const [prescriptions, setPrescriptions] = useState(initialPrescriptions || []);
   const [search, setSearch] = useState("");
   const [toast, setToast] = useState(null); // { message, subtext, type }
+  console.log(prescriptions);
 
   // মোডালের জন্য স্টেট
   const [selectedPrescription, setSelectedPrescription] = useState(null);

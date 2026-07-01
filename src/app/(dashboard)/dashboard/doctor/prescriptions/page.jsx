@@ -20,12 +20,16 @@ export default async function PrescriptionsPage() {
   }
 
   const doctor = await getDoctor(user.id);
+  console.log("doctor", doctor._id);
 
   if (!doctor?._id) {
     redirect("/unauthorized");
   }
+  const doctorId = doctor._id;
 
-  const prescriptions = await getPrescriptions(doctor._id);
+  const prescriptions = await getPrescriptions(doctorId);
+
+  console.log("prescriptions", prescriptions);
 
   return (
     <main
